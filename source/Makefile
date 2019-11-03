@@ -16,10 +16,10 @@ LD_FLAGS = -L /usr/local/lib -l $(GOOGLE_TEST_LIB) -l pthread
 
 ODIR=obj
 
-TEST_PROGRAM = Testa_Nlinhas
-NAME_PROGRAM = Nlinhas
+TEST_PROGRAM = Testa_Programa
+NAME_PROGRAM = CamadaFisica
 
-_DEPS = $(NAME_PROGRAM).h
+_DEPS = $(NAME_PROGRAM).hpp
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 _OBJ = $(NAME_PROGRAM).o $(TEST_PROGRAM).o
@@ -28,12 +28,12 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 $(TEST_PROGRAM): $(OBJ)
 	$(CC) -o $@ $^ $(LD_FLAGS) $(CFLAGS)
 	$(GTEST_VALGRIND) ./$(TEST_PROGRAM)
-	$(CPPLINT) *.c
-	$(CPPCHECK) *.c
+	$(CPPLINT) *.cpp
+	$(CPPCHECK) *.cpp
 	$(GCOV) -n $(ODIR)/*.gcda
 	
 	
-$(ODIR)/%.o: %.c $(DEPS)
+$(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $(G++_FLAGS) $< $(CFLAGS)
 
 $(CPPLINT):
