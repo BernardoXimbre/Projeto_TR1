@@ -1,7 +1,11 @@
 // Copyright [2019] <Copyright Owner>
 
 # include "../include/CamadaFisica.hpp"
+# include <stdlib.h>
+# include <bitset>
 # include <iostream>
+# include <string>
+# include <cstring>
 
 using std::string;
 
@@ -18,98 +22,45 @@ void AplicacaoTransmissora(void) {
 }   // fim do metodo AplicacaoTransmissora
 
 void CamadaDeAplicacaoTransmissora(string mensagem) {
-    int quadro[] = mensagem;    // trabalhar com bits!!!
+    int i, j;
+    int tamanho_mensagem = mensagem.length();
+    int tamanho_quadro = tamanho_mensagem*8;
+    int* quadro = new int[tamanho_quadro];
+    string auxiliar;
+
+    for (i = 0, j = 0; i < tamanho_mensagem; i++) {
+        auxiliar = bitset<8>(static_cast<int>(mensagem[i])).to_string();
+        cout << auxiliar[0] << "\n";
+        for (; j < (i*8) + 1; j++) {
+            if (auxiliar[j] == '1') {
+                cout << "entrou";
+                quadro[j] = 1;
+            } else if (auxiliar[j] == '0') {
+                quadro[j] = 2;
+                cout << "entrou";
+            } else {
+                break;
+            }
+        }
+        
+    }
+    cout << quadro[0] << "\n";
+    // int quadro[] = mensagem;    // trabalhar com bits!!!
     // chama a proxima camada
-    CamadaFisicaTransmissora(quadro);
+    // CamadaFisicaTransmissora(quadro);
 }   // fim do metodo CamadaDeAplicacaoTransmissora
 
-void CamadaFisicaTransmissora(int quadro[]) {
-    int tipoDeCodificacao = 0;  // alterar de acordo o teste
-    int fluxoBrutoDeBits[];  // ATENÇÃO: trabalhar com BITS!!!
-    switch (tipoDeCodificacao) {
-        case 0 :  // codificao binaria
-        fluxoBrutoDeBits = CamadaFisicaTransmissoraCodificacaoBinaria(quadro);
-        break;
-        case 1 :    // codificacao manchester
-        fluxoBrutoDeBits =
-        CamadaFisicaTransmissoraCodificacaoManchester(quadro);
-        break;
-        case 2 :    // codificacao manchester diferencial
-        fluxoBrutoDeBits =
-        CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(quadro);
-        break;
-    }   // fim do switch/case
-    MeioDeComunicacao(fluxoBrutoDeBits);
-}   // fim do metodo CamadaFisicaTransmissora
-
 int* CamadaFisicaTransmissoraCodificacaoBinaria(int quadro[]) {
+    return quadro;
     // implementacao do algoritmo
 }   // fim do metodo CamadaFisicaTransmissoraCodificacaoBinaria
 
 int* CamadaFisicaTransmissoraCodificacaoManchester(int quadro[]) {
     // implementacao do algoritmo
+    return quadro;
 }   // fim do metodo CamadaFisicaTransmissoraCodificacaoManchester
 
 int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro[]) {
     // implementacao do algoritmo
+    return quadro;
 }   // fim do CamadaFisicaTransmissoraCodificacaoManchesterDiferencial
-/* Este metodo simula a transmissao da informacao no meio de
-* comunicacao, passando de um pontoA (transmissor) para um
-* ponto B (receptor)
-*/
-
-void MeioDeComunicacao(int fluxoBrutoDeBits[]) {
-// OBS IMPORTANTE: trabalhar com BITS e nao com BYTES!!!
-    int fluxoBrutoDeBitsPontoA[], fluxoBrutoDeBitsPontoB[];
-    fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
-    while (fluxoBrutoDeBitsPontoB.lenght!=
-    fluxoBrutoDeBitsPontoA) {
-    fluxoBrutoBitsPontoB += fluxoBrutoBitsPontoA;   // BITS! Sendo transferidos
-    }   // fim do while
-    // chama proxima camada
-    CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB);
-}   // fim do metodo MeioDeTransmissao
-
-void CamadaFisicaReceptora(int quadro[]) {
-    int tipoDeDecodificacao = 0;    // alterar de acordo o teste
-    int fluxoBrutoDeBits[];    // ATENÇÃO: trabalhar com BITS!!!
-    switch (tipoDeDecodificacao) {
-        case 0 :    // codificao binaria
-        fluxoBrutoDeBits =
-        CamadaFisicaReceptoraDecodificacaoBinaria(quadro);
-        break;
-        case 1 :    // codificacao manchester
-        fluxoBrutoDeBits =
-        CamadaFisicaReceptoraDecodificacaoManchester(quadro);
-        break;
-        case 2 :    // codificacao manchester diferencial
-        fluxoBrutoDeBits =
-        CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(quadro);
-        break;
-    }   // fim do switch/case
-    // chama proxima camada
-    CamadaDeAplicacaoReceptora(fluxoBrutoDeBits);
-}   // fim do metodo CamadaFisicaTransmissora
-
-int* CamadaFisicaReceptoraCodificacaoBinaria(int quadro[]) {
-    // implementacao do algoritmo para DECODIFICAR
-}   // fim do metodo CamadaFisicaReceptoraDecodificacaoBinaria
-
-int* CamadaFisicaReceptoraCodificacaoManchester(int quadro[]) {
-    // implementacao do algoritmo para DECODIFICAR
-}   // fim do metodo CamadaFisicaReceptoraDecodificacaoManchester
-
-int* CamadaFisicaReceptoraCodificacaoManchesterDiferencial(int quadro[]) {
-    // implementacao do algoritmo para DECODIFICAR
-}   // fim do CamadaFisicaReceptoraDecodificacaoManchesterDiferencial
-
-void CamadaDeAplicacaoReceptora(int quadro[]) {
-    string mensagem = quadro;    // estava trabalhando com bits
-    // chama proxima camada
-    AplicacaoReceptora(mensagem);
-}   // fim do metodo CamadaDeAplicacaoReceptora
-
-void AplicacaoReceptora(string mensagem) {
-    cout << "A mensagem recebida foi:" << mensagem << endl;
-}   // fim do metodo AplicacaoReceptora
-
