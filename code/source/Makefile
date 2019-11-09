@@ -16,7 +16,7 @@ LD_FLAGS = -L /usr/local/lib -l $(GOOGLE_TEST_LIB) -l pthread
 
 ODIR=obj
 
-TEST_PROGRAM = Testa_Programa
+TEST_PROGRAM = Testa_CamadaFisica
 NAME_PROGRAM = CamadaFisica
 
 _DEPS = $(NAME_PROGRAM).hpp
