@@ -6,6 +6,8 @@
 #include <iostream>
 using namespace std;
 
+#define TAMANHO_QUADRO 8
+
 int* CamadaFisicaTransmissoraCodificacaoBinaria(int quadro[]);
 int* CamadaFisicaReceptoraCodificacaoBinaria(int quadro[]);
 
