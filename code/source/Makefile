@@ -27,10 +27,11 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(TEST_PROGRAM): $(OBJ)
 	$(CC) -o $@ $^ $(LD_FLAGS) $(CFLAGS)
-	$(GTEST_VALGRIND) ./$(TEST_PROGRAM)
-	$(CPPLINT) *.cpp
-	$(CPPCHECK) *.cpp
-	$(GCOV) -n $(ODIR)/*.gcda
+	./$(TEST_PROGRAM)
+	#$(GTEST_VALGRIND) ./$(TEST_PROGRAM)
+	#$(CPPLINT) *.cpp
+	#$(CPPCHECK) *.cpp
+	#$(GCOV) -n $(ODIR)/*.gcda
 	
 	
 $(ODIR)/%.o: %.cpp $(DEPS)
