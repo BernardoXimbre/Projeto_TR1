@@ -32,7 +32,7 @@ TEST(CodificacaoBinaria, Transmissora_erro_quadro) {
     ASSERT_NE(verificador, 1);
 }
 
-TEST(DecodificacaoBinaria, Receptora) {
+TEST(Receptora_Binaria, correto) {
     int quadro[]= {1, 1, 0, 1, 1, 1, 1, 0}, i;
     int verificador = 0;
     int *resultado = CamadaFisicaTransmissoraCodificacaoBinaria(quadro);
@@ -44,7 +44,7 @@ TEST(DecodificacaoBinaria, Receptora) {
     ASSERT_EQ(verificador, 0);
 }
 
-TEST(DecodificacaoBinaria, Receptora_erro_quadro) {
+TEST(Receptora_Binaria, erro_quadro) {
     int quadro[]= {1, 1, 0, 1, 1, 1, 1, 0}, i;
     int verificador = 0;
     int *resultado = CamadaFisicaTransmissoraCodificacaoBinaria(quadro);
@@ -55,61 +55,185 @@ TEST(DecodificacaoBinaria, Receptora_erro_quadro) {
     }
     ASSERT_NE(verificador, 1);
 }
+/***************************************************/
 
-TEST(CodificacaoManchester, Transmissora) {
+TEST(Transmissora_Manchester, correto) {
     int quadro[]= {1, 0, 1, 1, 0, 1, 0, 0};
-    int quadro_manchester[] = {1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
+    int q_m[] = {1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
     int i, *resultado = CamadaFisicaTransmissoraCodificacaoManchester(quadro);
     int verificador = 0;
     for (i = 0; i< TAMANHO_QUADRO*2; i++) {
-        if (quadro_manchester[i] != resultado[i]) {
+        if (q_m[i] != resultado[i]) {
             verificador = 1;
         }
     }
     ASSERT_EQ(verificador, 0);
 }
-TEST(CodificacaoManchester, Transmissora_erro_quadro) {
+
+TEST(Transmissora_Manchester, erro_quadro) {
     int quadro[]= {0, 0, 1, 1, 0, 1, 0, 0};
-    int quadro_manchester[] = {1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
+    int q_m[] = {1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
     int i, *resultado = CamadaFisicaTransmissoraCodificacaoManchester(quadro);
     int verificador = 0;
     for (i = 0; i< TAMANHO_QUADRO*2; i++) {
-        if (quadro_manchester[i] != resultado[i]) {
+        if (q_m[i] != resultado[i]) {
             verificador = 1;
         }
     }
     ASSERT_NE(verificador, 0);
 }
 
-TEST(CodificacaoManchester, Transmissora_erro_quadro_manchester) {
+TEST(Transmissora_Manchester, erro_quadro_manchester) {
     int quadro[]= {1, 0, 1, 1, 0, 1, 0, 0};
-    int quadro_manchester[] = {1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0};
+    int q_m[] = {1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0};
     int i, *resultado = CamadaFisicaTransmissoraCodificacaoManchester(quadro);
     int verificador = 0;
     for (i = 0; i< TAMANHO_QUADRO*2; i++) {
-        if (quadro_manchester[i] != resultado[i]) {
+        if (q_m[i] != resultado[i]) {
             verificador = 1;
         }
     }
     ASSERT_NE(verificador, 0);
 }
-/*
-TEST(DecodificacaoManchester, Receptora) {
-    int quadro[]= {1, 0, 1, 1, 0, 1, 0, 0},
-    quadro_manchester[] = {1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1},
-    i,
-    *resultado = CamadaFisicaReceptoraCodificacaoManchester(quadro_manchester);
+
+TEST(Receptora_Manchester, correto) {
+    int quadro[]= {0, 1, 0, 1, 0, 0, 1, 1};
+    int q_m[] = {0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0};
+    int i;
+    int *resultado = CamadaFisicaReceptoraCodificacaoManchester(q_m);
+    int verificador = 0;
+    for (i = 0; i < TAMANHO_QUADRO; i++) {
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+        }
+    }
+    ASSERT_EQ(verificador, 0);
+}
+
+TEST(Receptora_Manchester, erro_quadro) {
+    int quadro[]= {0, 1, 0, 1, 0, 0, 1, 1};
+    int q_m[] = {0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0};
+    int i,
+    *resultado = CamadaFisicaReceptoraCodificacaoManchester(q_m);
+    int verificador = 0;
+    for (i = 0; i < TAMANHO_QUADRO; i++) {
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+        }
+    }
+    ASSERT_NE(verificador, 0);
+    
+}
+
+TEST(Receptora_Manchester, erro_quadro_manchester) {
+    int quadro[]= {0, 1, 0, 1, 0, 0, 1, 1};
+    int q_m[] = {1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0};
+    int i;
+    int *resultado = CamadaFisicaReceptoraCodificacaoManchester(q_m);
+    int verificador = 0;
+    for (i = 0; i < TAMANHO_QUADRO; i++) {
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+        }
+    }
+    ASSERT_NE(verificador, 0);
+}
+/***************************************************/
+
+TEST(Transmissora_Manchester_Diferencial, correto) {
+    int quadro[]= {0, 1, 0, 0, 1, 1, 1, 0};
+    int q_m_d[] = {0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
+    int verificador = 0;
+    int i,
+    *resultado =
+    CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(quadro);
+
+    for (i = 0; i< TAMANHO_QUADRO*2; i++) {
+        if (q_m_d[i] != resultado[i]) {
+            verificador = 1;
+        }
+    }
+    ASSERT_EQ(verificador, 0);
+}
+
+TEST(Transmissora_Manchester_Diferencial, errado_quadro) {
+    int quadro[]= {1, 1, 0, 0, 1, 1, 1, 0};
+    int q_m_d[] = {0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
+    int verificador = 0;
+    int i,
+    *resultado =
+    CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(quadro);
+
+    for (i = 0; i< TAMANHO_QUADRO*2; i++) {
+        if (q_m_d[i] != resultado[i]) {
+            verificador = 1;
+        }
+    }
+    ASSERT_NE(verificador, 0);
+}
+
+TEST(Transmissora_Manchester_Diferencial, errado_quadro_manchester) {
+    int quadro[]= {0, 1, 0, 0, 1, 1, 1, 0};
+    int q_m_d[] = {1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
+    int verificador = 0;
+    int i,
+    *resultado =
+    CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(quadro);
+
+    for (i = 0; i< TAMANHO_QUADRO*2; i++) {
+        if (q_m_d[i] != resultado[i]) {
+            verificador = 1;
+        }
+    }
+    ASSERT_NE(verificador, 0);
+}
+
+TEST(Receptora_Manchester_Diferencial, correto) {
+    int quadro[]= {0, 1, 0, 0, 1, 1, 1, 0};
+    int q_m_d[] = {0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
+    int verificador = 0;
+    int i,
+    *resultado =
+    CamadaFisicaReceptoraCodificacaoManchesterDiferencial(q_m_d);
 
     for (i = 0; i< TAMANHO_QUADRO; i++) {
-        ASSERT_EQ(quadro[i],
-        resultado[i]);
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+        }
     }
+    ASSERT_NE(verificador, 0);
 }
 
+TEST(Receptora_Manchester_Diferencial, erro_quadro) {
+    int quadro[]= {1, 1, 0, 0, 1, 1, 1, 0};
+    int q_m_d[] = {0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
+    int verificador = 0;
+    int i,
+    *resultado =
+    CamadaFisicaReceptoraCodificacaoManchesterDiferencial(q_m_d);
 
-
-TEST(QUANTIDADE_DE_LINHAS, sem_linhas_e_comentarios) {
-    char name[]="sem_linhas_e_comentarios.c";
-    ASSERT_EQ(0, Nline(name));
+    for (i = 0; i< TAMANHO_QUADRO; i++) {
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+        }
+    }
+    ASSERT_NE(verificador, 0);
 }
-*/
+
+TEST(Receptora_Manchester_Diferencial, erro_quadro_manchester_diferencial) {
+    int quadro[]= {1, 1, 0, 0, 1, 1, 1, 0};
+    int q_m_d[] = {1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
+    int verificador = 0;
+    int i,
+    *resultado =
+    CamadaFisicaReceptoraCodificacaoManchesterDiferencial(q_m_d);
+
+    for (i = 0; i< TAMANHO_QUADRO; i++) {
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+        }
+    }
+    ASSERT_NE(verificador, 0);
+}
+
+/***************************************************/
