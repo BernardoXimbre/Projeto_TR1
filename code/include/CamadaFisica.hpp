@@ -4,17 +4,24 @@
 #define CAMADAFISICA_HPP_
 
 #include <iostream>
-using namespace std;
+#include <string>
+
+using std::string;
 
 #define TAMANHO_QUADRO 8
 
+void AplicacaoTransmissora(void);
+void CamadaDeAplicacaoTransmissora(string mensagem);
+void CamadaFisicaTransmissora(int quadro[]);
 int* CamadaFisicaTransmissoraCodificacaoBinaria(int quadro[]);
-int* CamadaFisicaReceptoraCodificacaoBinaria(int quadro[]);
-
 int* CamadaFisicaTransmissoraCodificacaoManchester(int quadro[]);
-int* CamadaFisicaReceptoraCodificacaoManchester(int quadro[]);
-
 int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro[]);
-int* CamadaFisicaReceptoraCodificacaoManchesterDiferencial(int quadro[]);
+void MeioDeComunicacao(int fluxoBrutoDeBits[]);
+void CamadaFisicaReceptora(int quadro[]);
+int* CamadaFisicaReceptoraDecodificacaoBinaria(int quadro[]);
+int* CamadaFisicaReceptoraDecodificacaoManchester(int quadro[]);
+int* CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(int quadro[]);
+void CamadaDeAplicacaoReceptora(int quadro[]);
+void AplicacaoReceptora(string mensagem);
 
 #endif  // CAMADAFISICA_HPP_
