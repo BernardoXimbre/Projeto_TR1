@@ -6,9 +6,15 @@
 #include <iostream>
 #include <string>
 
-using std::string;
+# include <bitset>
+# include <cstring>
 
-#define TAMANHO_QUADRO 8
+#include <math.h>
+
+using namespace std;
+
+#define BITS 8
+#define CODIFICACAO 1
 
 void AplicacaoTransmissora(void);
 void CamadaDeAplicacaoTransmissora(string mensagem);
