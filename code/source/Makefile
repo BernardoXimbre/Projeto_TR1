@@ -15,9 +15,11 @@ LD_FLAGS = -L /usr/local/lib -l $(GOOGLE_TEST_LIB) -l pthread
 
 ODIR=obj
 
+SIMULADOR = simulador
+TEST = teste
+
 TEST_CAMADA_FISICA = Testa_CamadaFisica
 TEST_CAMADA_ENLACE = Testa_CamadaEnlace
-SIMULADOR = Simulador
 
 CAMADA_FISICA = CamadaFisica
 CAMADA_ENLACE = CamadaEnlace
@@ -25,33 +27,25 @@ CAMADA_ENLACE = CamadaEnlace
 _DEPS = $(CAMADA_FISICA).hpp $(CAMADA_ENLACE).hpp
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = $(CAMADA_FISICA).o $(CAMADA_ENLACE).o $(TEST_CAMADA_FISICA).o $(TEST_CAMADA_ENLACE).o $(SIMULADOR).o
+_OBJ = $(CAMADA_FISICA).o $(CAMADA_ENLACE).o $(TEST_CAMADA_FISICA).o $(TEST_CAMADA_ENLACE).o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-$(SIMULADOR): $(OBJ)
+_OBJ2 = $(CAMADA_FISICA).o $(CAMADA_ENLACE).o $(SIMULADOR).o
+OBJ2 = $(patsubst %,$(ODIR)/%,$(_OBJ2))
+
+$(SIMULADOR): $(OBJ2)
 	$(CC) -o $@ $^ $(LD_FLAGS) $(CFLAGS)
-	$(GTEST_VALGRIND) ./$(SIMULADOR)
+	./$(SIMULADOR)
+
+$(TEST): $(OBJ)
+	$(CC) -o $@ $^ $(LD_FLAGS) $(CFLAGS)
+	$(GTEST_VALGRIND) ./$(TEST)
 	$(CPPLINT) *.cpp
 	$(CPPCHECK) *.cpp
 	$(GCOV) -n $(ODIR)/*.gcda
-
-#$(TEST_CAMADA_FISICA): $(OBJ)
-	#$(CC) -o $@ $^ $(LD_FLAGS) $(CFLAGS)
-	#$(GTEST_VALGRIND) ./$(TEST_CAMADA_FISICA)
-	#$(CPPLINT) *.cpp
-	#$(CPPCHECK) *.cpp
-	#$(GCOV) -n $(ODIR)/*.gcda
-
-#$(TEST_CAMADA_ENLACE): $(OBJ)
-#	$(CC) -o $@ $^ $(LD_FLAGS) $(CFLAGS)
-#	$(GTEST_VALGRIND) ./$(TEST_CAMADA_ENLACE)
-#	$(CPPLINT) *.cpp
-#	$(CPPCHECK) *.cpp
-#	$(GCOV) -n $(ODIR)/*.gcda
-	
 	
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $(G++_FLAGS) $< $(CFLAGS)
 
 clean:
-	rm -f $(ODIR)/*.* $(SIMULADOR) core $(INCDIR)/*~
+	rm -f $(ODIR)/*.* $(SIMULADOR) $(TEST) core $(INCDIR)/*~

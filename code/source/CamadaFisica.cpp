@@ -4,13 +4,6 @@
 
 int tamanho_quadro = BITS;
 
-void AplicacaoTransmissora(void) {
-    string mensagem;
-    cout << "Digite uma mensagem:" << endl;
-    getline(cin, mensagem);  // pega uma mensagem
-
-    CamadaDeAplicacaoTransmissora(mensagem);    // chama a proxima camada
-}   // fim do metodo AplicacaoTransmissora
 
 /***************************************************************************
 * Função: CamadaDeAplicacaoTransmissora
@@ -45,6 +38,7 @@ void CamadaDeAplicacaoTransmissora(string mensagem) {
     }
     // CamadaEnlaceDadosTransmissora(quadro);  // chama a proxima camada enlace
     CamadaFisicaTransmissora(quadro);   // chama a proxima camada
+    delete quadro;
 }   // fim do metodo CamadaDeAplicacaoTransmissora
 
 
@@ -176,8 +170,9 @@ void MeioDeComunicacao(int fluxoBrutoDeBits[]) {
         // BITS! Sendo transferidos
     }   // fim do while
     //  chama proxima camada
-    delete(fluxoBrutoDeBitsPontoA);
     CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB);
+    delete(fluxoBrutoDeBitsPontoA);
+    delete fluxoBrutoDeBitsPontoB;
 }   // fim do metodo MeioDeTransmissao
 
 

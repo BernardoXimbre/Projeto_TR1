@@ -35,10 +35,15 @@ Valgrind-3.13.0
 
 ### COMPILAÇÃO & TESTES
 
-Abra o terminal e execute os seguintes comandos para executar os testes
+Abra o terminal e execute os seguintes comandos para executar
 
-	cd Projeto_TR1/code/source/make
+### SIMULAR
 
+	cd Projeto_TR1/code/source/make simulador
+
+### TESTE UNITARIO
+
+	cd Projeto_TR1/code/source/make teste
 ### APAGAR TODOS OS OBJETOS DE COMPILACAO
 
 	cd Projeto_TR1/code/source/make clean

@@ -4,14 +4,19 @@
 # include "CamadaFisica.hpp"
 # include "CamadaEnlace.hpp"
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
 
-/*
+
 int main(void) {
     AplicacaoTransmissora();
     return 0;
 }   // fim do metodo main
-*/
+
+void AplicacaoTransmissora(void) {
+    string mensagem;
+    cout << "Digite uma mensagem:" << endl;
+    getline(cin, mensagem);  // pega uma mensagem
+
+    CamadaDeAplicacaoTransmissora(mensagem);    // chama a proxima camada
+}   // fim do metodo AplicacaoTransmissora
+
+
