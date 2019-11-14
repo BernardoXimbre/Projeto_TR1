@@ -15,25 +15,43 @@ LD_FLAGS = -L /usr/local/lib -l $(GOOGLE_TEST_LIB) -l pthread
 
 ODIR=obj
 
-TEST_PROGRAM = Testa_CamadaFisica
-NAME_PROGRAM = CamadaFisica
+TEST_CAMADA_FISICA = Testa_CamadaFisica
+TEST_CAMADA_ENLACE = Testa_CamadaEnlace
+SIMULADOR = Simulador
 
-_DEPS = $(NAME_PROGRAM).hpp
+CAMADA_FISICA = CamadaFisica
+CAMADA_ENLACE = CamadaEnlace
+
+_DEPS = $(CAMADA_FISICA).hpp $(CAMADA_ENLACE).hpp
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = $(NAME_PROGRAM).o $(TEST_PROGRAM).o
+_OBJ = $(CAMADA_FISICA).o $(CAMADA_ENLACE).o $(TEST_CAMADA_FISICA).o $(TEST_CAMADA_ENLACE).o $(SIMULADOR).o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-$(TEST_PROGRAM): $(OBJ)
+$(SIMULADOR): $(OBJ)
 	$(CC) -o $@ $^ $(LD_FLAGS) $(CFLAGS)
-	$(GTEST_VALGRIND) ./$(TEST_PROGRAM)
+	$(GTEST_VALGRIND) ./$(SIMULADOR)
 	$(CPPLINT) *.cpp
 	$(CPPCHECK) *.cpp
 	$(GCOV) -n $(ODIR)/*.gcda
+
+#$(TEST_CAMADA_FISICA): $(OBJ)
+	#$(CC) -o $@ $^ $(LD_FLAGS) $(CFLAGS)
+	#$(GTEST_VALGRIND) ./$(TEST_CAMADA_FISICA)
+	#$(CPPLINT) *.cpp
+	#$(CPPCHECK) *.cpp
+	#$(GCOV) -n $(ODIR)/*.gcda
+
+#$(TEST_CAMADA_ENLACE): $(OBJ)
+#	$(CC) -o $@ $^ $(LD_FLAGS) $(CFLAGS)
+#	$(GTEST_VALGRIND) ./$(TEST_CAMADA_ENLACE)
+#	$(CPPLINT) *.cpp
+#	$(CPPCHECK) *.cpp
+#	$(GCOV) -n $(ODIR)/*.gcda
 	
 	
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $(G++_FLAGS) $< $(CFLAGS)
 
 clean:
-	rm -f $(ODIR)/*.* $(TEST_PROGRAM) core $(INCDIR)/*~
+	rm -f $(ODIR)/*.* $(SIMULADOR) core $(INCDIR)/*~

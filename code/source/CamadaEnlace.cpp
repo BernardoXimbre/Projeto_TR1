@@ -57,10 +57,6 @@ void CamadaEnlaceReceptora(int quadro[]) {
 }   // fim do metodo CamadaEnlaceReceptora
 
 void CamadaEnlaceReceptoraEnquadramento(int quadro[]) {
-    // algum codigo aqui
-}   // fim do metodo CamadaEnlaceReceptoraEnquadramento
-
-void CamadaEnlaceReceptoraEnquadramento(int quadro[]) {
     int tipoDeEnquadramento = 0;    // alterar de acordo com o teste
     int *quadroDesenquadrado;
     switch (tipoDeEnquadramento) {

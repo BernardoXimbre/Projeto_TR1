@@ -1,14 +1,7 @@
-// "Copyright [2018] <Copyright Owner>"  [legal/copyright]
+// "Copyright [2019] <Copyright Owner>"  [legal/copyright]
 
 # include "gtest/gtest.h"
 # include "CamadaFisica.hpp"
-# include "CamadaEnlace.hpp"
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
-
 
 /***************TESTE CAMADA FISICA******************/
 
