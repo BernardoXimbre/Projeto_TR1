@@ -107,20 +107,20 @@ int* CamadaFisicaTransmissoraCodificacaoBinaria(int quadro[]) {
 * Assertiva de saída
 *   quadro_manchester[] = {1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1}
 ****************************************************************************/
-int* CamadaFisicaTransmissoraCodificacaoManchester(int quadro[]) {
+int* CamadaFisicaTransmissoraCodificacaoManchester(int* quadro) {
     tamanho_quadro = tamanho_quadro*2;
-    int *quadro_manchester = new int[tamanho_quadro];
     int i, j;
-
-    for ( i = 0, j = 0; i < tamanho_quadro; i++, j++ ) {
+    int *quadro_manchester = new int[tamanho_quadro];
+    for ( i = 0, j = 0; i < tamanho_quadro/2; i++, j+=2 ) {
         if (quadro[i] == 0) {
             quadro_manchester[j] = 0;
-            quadro_manchester[++j] = 1;  // CLOCK 01
+            quadro_manchester[j+1] = 1;  // CLOCK 01
         } else {
             quadro_manchester[j] = 1;
-            quadro_manchester[++j] = 0;
+            quadro_manchester[j+1] = 0;
         }
     }
+
     return quadro_manchester;
 }   // fim do metodo CamadaFisicaTransmissoraCodificacaoManchester
 
@@ -183,6 +183,7 @@ void MeioDeComunicacao(int fluxoBrutoDeBits[]) {
         // BITS! Sendo transferidos
     }   // fim do while
     //  chama proxima camada
+    delete(fluxoBrutoDeBitsPontoA);
     CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB);
 }   // fim do metodo MeioDeTransmissao
 
@@ -311,6 +312,7 @@ void CamadaDeAplicacaoReceptora(int quadro[]) {
             j = BITS;
         }
     }
+    delete(quadro);
     AplicacaoReceptora(mensagem);   // chama proxima camada
 }   // fim do metodo CamadaDeAplicacaoReceptora
 

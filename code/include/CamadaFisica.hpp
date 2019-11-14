@@ -9,6 +9,8 @@
 # include <bitset>
 # include <cstring>
 
+# include "gtest/gtest.h"
+
 #include <math.h>
 
 using namespace std;
@@ -20,7 +22,7 @@ void AplicacaoTransmissora(void);
 void CamadaDeAplicacaoTransmissora(string mensagem);
 void CamadaFisicaTransmissora(int quadro[]);
 int* CamadaFisicaTransmissoraCodificacaoBinaria(int quadro[]);
-int* CamadaFisicaTransmissoraCodificacaoManchester(int quadro[]);
+int* CamadaFisicaTransmissoraCodificacaoManchester(int* quadro);
 int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro[]);
 void MeioDeComunicacao(int fluxoBrutoDeBits[]);
 void CamadaFisicaReceptora(int quadro[]);

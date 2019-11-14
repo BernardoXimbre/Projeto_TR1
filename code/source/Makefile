@@ -1,4 +1,3 @@
-
 GOOGLE_TEST_LIB = gtest
 GOOGLE_TEST_INCLUDE = /usr/local/include
 
@@ -25,15 +24,12 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 _OBJ = $(NAME_PROGRAM).o $(TEST_PROGRAM).o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-
-
 $(TEST_PROGRAM): $(OBJ)
 	$(CC) -o $@ $^ $(LD_FLAGS) $(CFLAGS)
-	./$(TEST_PROGRAM)
 	$(GTEST_VALGRIND) ./$(TEST_PROGRAM)
-	$(CPPLINT) *.cpp
-	$(CPPCHECK) *.cpp
-	$(GCOV) -n $(ODIR)/*.gcda
+	#$(CPPLINT) *.cpp
+	#$(CPPCHECK) *.cpp
+	#$(GCOV) -n $(ODIR)/*.gcda
 	
 	
 $(ODIR)/%.o: %.cpp $(DEPS)
