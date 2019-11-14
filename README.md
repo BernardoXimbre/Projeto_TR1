@@ -2,6 +2,7 @@
 ## Requisitos para funcionamento
 
 gcc version 7.3.0
+
 	sudo apt-get update
 	sudo apt-get install build-essential
 GNU Make 4.1
