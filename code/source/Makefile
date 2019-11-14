@@ -3,7 +3,7 @@ GOOGLE_TEST_INCLUDE = /usr/local/include
 
 IDIR =../include
 CC=g++
-CFLAGS=-I$(IDIR) -g -ftest-coverage -fprofile-arcs
+CFLAGS=-I$(IDIR) -g -ftest-coverage -fprofile-arcs -lm
 
 GTEST_VALGRIND = valgrind
 CPPLINT = cpplint

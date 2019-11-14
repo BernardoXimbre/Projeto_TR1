@@ -5,13 +5,9 @@
 
 #include <iostream>
 #include <string>
-
 # include <bitset>
 # include <cstring>
-
-# include "gtest/gtest.h"
-
-#include <math.h>
+#include <cmath>
 
 using namespace std;
 

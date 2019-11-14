@@ -33,12 +33,12 @@ Valgrind-3.13.0
 	sudo apt-get update
 	sudo apt-get install valgrind
 
-## COMPILAÇÃO & TESTES
+### COMPILAÇÃO & TESTES
 
 Abra o terminal e execute os seguintes comandos para executar os testes
 
 	cd Projeto_TR1/code/source/make
 
-## APAGAR TODOS OS OBJETOS DE COMPILACAO
+### APAGAR TODOS OS OBJETOS DE COMPILACAO
 
-	make clean
+	cd Projeto_TR1/code/source/make clean
