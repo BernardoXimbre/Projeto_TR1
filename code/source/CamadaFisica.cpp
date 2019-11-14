@@ -1,16 +1,8 @@
-// "Copyright [2018] <Copyright Owner>"  [legal/copyright]
+// "Copyright [2019] <Copyright Owner>"  [legal/copyright]
 
 # include "CamadaFisica.hpp"
 
 int tamanho_quadro = BITS;
-
-/*
-int main(void) {
-    AplicacaoTransmissora();
-    return 0;
-}   // fim do metodo main
-*/
-
 
 void AplicacaoTransmissora(void) {
     string mensagem;
@@ -51,6 +43,7 @@ void CamadaDeAplicacaoTransmissora(string mensagem) {
             }
         }
     }
+    // CamadaEnlaceDadosTransmissora(quadro);  // chama a proxima camada enlace
     CamadaFisicaTransmissora(quadro);   // chama a proxima camada
 }   // fim do metodo CamadaDeAplicacaoTransmissora
 
@@ -205,8 +198,7 @@ void CamadaFisicaReceptora(int quadro[]) {
             CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(quadro);
             break;
     }   // fim do switch/case
-    // chama proxima camada
-    CamadaDeAplicacaoReceptora(fluxoBrutoDeBits);
+    CamadaDeAplicacaoReceptora(fluxoBrutoDeBits);   // chama proxima camada
 }   // fim do metodo CamadaFisicaTransmissora
 
 

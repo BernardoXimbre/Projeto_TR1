@@ -1,4 +1,4 @@
-// "Copyright [2018] <Copyright Owner>"  [legal/copyright]
+// "Copyright [2019] <Copyright Owner>"  [legal/copyright]
 
 #ifndef CAMADAFISICA_HPP_
 #define CAMADAFISICA_HPP_
@@ -18,7 +18,7 @@ void AplicacaoTransmissora(void);
 void CamadaDeAplicacaoTransmissora(string mensagem);
 void CamadaFisicaTransmissora(int quadro[]);
 int* CamadaFisicaTransmissoraCodificacaoBinaria(int quadro[]);
-int* CamadaFisicaTransmissoraCodificacaoManchester(int* quadro);
+int* CamadaFisicaTransmissoraCodificacaoManchester(int quadro[]);
 int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro[]);
 void MeioDeComunicacao(int fluxoBrutoDeBits[]);
 void CamadaFisicaReceptora(int quadro[]);

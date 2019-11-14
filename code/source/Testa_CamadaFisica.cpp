@@ -2,12 +2,16 @@
 
 # include "gtest/gtest.h"
 # include "CamadaFisica.hpp"
-
+# include "CamadaEnlace.hpp"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+
+
+/***************TESTE CAMADA FISICA******************/
+
 
 TEST(CodificacaoBinaria, Transmissora) {
     int quadro[]= {1, 1, 0, 1, 1, 1, 1, 0}, i;
@@ -262,3 +266,7 @@ TEST(Receptora_Manchester_Diferencial, erro_quadro_manchester_diferencial) {
     delete resultado;
 }
 /***************************************************/
+
+
+/***************TESTE CAMADA ENLACE******************/
+
