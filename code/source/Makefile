@@ -27,18 +27,13 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 $(TEST_PROGRAM): $(OBJ)
 	$(CC) -o $@ $^ $(LD_FLAGS) $(CFLAGS)
 	$(GTEST_VALGRIND) ./$(TEST_PROGRAM)
-	#$(CPPLINT) *.cpp
-	#$(CPPCHECK) *.cpp
-	#$(GCOV) -n $(ODIR)/*.gcda
+	$(CPPLINT) *.cpp
+	$(CPPCHECK) *.cpp
+	$(GCOV) -n $(ODIR)/*.gcda
 	
 	
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $(G++_FLAGS) $< $(CFLAGS)
 
-$(CPPLINT):
-	
-
-gcov:
-	
 clean:
 	rm -f $(ODIR)/*.* $(TEST_PROGRAM) core $(INCDIR)/*~
