@@ -4,7 +4,6 @@
 
 int tamanho_quadro = BITS;
 
-
 /***************************************************************************
 * Função: CamadaDeAplicacaoTransmissora
 * Descrição

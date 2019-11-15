@@ -1,8 +1,8 @@
 // "Copyright [2019] <Copyright Owner>"  [legal/copyright]
 
 # include "gtest/gtest.h"
-# include "CamadaFisica.hpp"
-
+# include "CamadaEnlace.hpp"
+/*
 TEST(CAMDAENLACE, Transmissora) {
     int quadro[]= {1, 1, 0, 1, 1, 1, 1, 0}, i;
     int verificador = 0;
@@ -15,3 +15,4 @@ TEST(CAMDAENLACE, Transmissora) {
     }
     ASSERT_EQ(verificador, 0);
 }
+*/

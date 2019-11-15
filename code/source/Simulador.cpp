@@ -8,6 +8,7 @@
 
 int main(void) {
     AplicacaoTransmissora();
+    cout << "ENTROU";
     return 0;
 }   // fim do metodo main
 
@@ -18,5 +19,3 @@ void AplicacaoTransmissora(void) {
 
     CamadaDeAplicacaoTransmissora(mensagem);    // chama a proxima camada
 }   // fim do metodo AplicacaoTransmissora
-
-
