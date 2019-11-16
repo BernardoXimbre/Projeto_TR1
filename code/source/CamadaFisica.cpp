@@ -1,64 +1,28 @@
 // "Copyright [2019] <Copyright Owner>"  [legal/copyright]
 
 # include "CamadaFisica.hpp"
-
-int tamanho_quadro = BITS;
-
-/***************************************************************************
-* Função: CamadaDeAplicacaoTransmissora
-* Descrição
-*   quebra a mensagem em quadro de BITS para cada caractere e atribui a um vetor int quadro[]
-*   chama uma funcao CamadaFisicaTransmissora passando como parametro int quadro[]
-* Parâmetros
-*   mensagem - variavel que armazena a mensagem a ser enviada.
-* Valor retornado
-*   retorna void.
-* Assertiva de entrada
-*   mensagem == string mensagem
-* Assertiva de saída
-*   quadro == int quadro[]
-****************************************************************************/
-void CamadaDeAplicacaoTransmissora(string mensagem) {
-    int i, j, k;
-    int tamanho_mensagem = mensagem.length();
-    tamanho_quadro = tamanho_mensagem*BITS;
-    int* quadro = new int[tamanho_quadro];
-    string auxiliar;
-
-    for (i = 0, j = 0; i < tamanho_mensagem; i++) {
-        auxiliar = bitset<BITS>(static_cast<int>(mensagem[i])).to_string();
-        for (k = 0; k < auxiliar.length(); k++, j++) {
-            if (auxiliar[k] == '1') {
-                quadro[j] = 1;
-            } else if (auxiliar[k] == '0') {
-                quadro[j] = 0;
-            }
-        }
-    }
-    // CamadaEnlaceDadosTransmissora(quadro);  // chama a proxima camada enlace
-    CamadaFisicaTransmissora(quadro);   // chama a proxima camada
-    delete quadro;
-}   // fim do metodo CamadaDeAplicacaoTransmissora
+# include "CamadaEnlace.hpp"
 
 
-void CamadaFisicaTransmissora(int quadro[]) {
+void CamadaFisicaTransmissora(int quadro[], int *tamanho) {
     int tipoDeCodificacao = CODIFICACAO;  // alterar de acordo o teste
     int *fluxoBrutoDeBits;    // ATENÇÃO: trabalhar com BITS!!!
     switch (tipoDeCodificacao) {
         case 0 :    // codificao binaria
             fluxoBrutoDeBits =
-            CamadaFisicaTransmissoraCodificacaoBinaria(quadro);
+            CamadaFisicaTransmissoraCodificacaoBinaria(quadro, tamanho);
             break;
         case 1 :    // codificacao manchester
             fluxoBrutoDeBits =
-            CamadaFisicaTransmissoraCodificacaoManchester(quadro);
+            CamadaFisicaTransmissoraCodificacaoManchester(quadro, tamanho);
             break;
         case 2 :    // codificacao manchester diferencial
             fluxoBrutoDeBits =
-            CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(quadro);
+            CamadaFisicaTransmissoraCodificacaoManchesterDiferencial
+            (quadro, tamanho);
             break;
     }   // fim do switch/case
-    MeioDeComunicacao(fluxoBrutoDeBits);
+    MeioDeComunicacao(fluxoBrutoDeBits, tamanho);
 }   // fim do metodo CamadaFisicaTransmissora
 
 
@@ -75,7 +39,7 @@ void CamadaFisicaTransmissora(int quadro[]) {
 * Assertiva de saída
 *   quadro[] == {1,0,1,1,0,1,0,0}
 ****************************************************************************/ 
-int* CamadaFisicaTransmissoraCodificacaoBinaria(int quadro[]) {
+int* CamadaFisicaTransmissoraCodificacaoBinaria(int quadro[], int *tamanho) {
     return quadro;  // implementacao do algoritmo
 }   // fim do metodo CamadaFisicaTransmissoraCodificacaoBinaria
 
@@ -93,11 +57,11 @@ int* CamadaFisicaTransmissoraCodificacaoBinaria(int quadro[]) {
 * Assertiva de saída
 *   quadro_manchester[] = {1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1}
 ****************************************************************************/
-int* CamadaFisicaTransmissoraCodificacaoManchester(int* quadro) {
-    tamanho_quadro = tamanho_quadro*2;
+int* CamadaFisicaTransmissoraCodificacaoManchester(int quadro[], int *tamanho) {
     int i, j;
-    int *quadro_manchester = new int[tamanho_quadro];
-    for ( i = 0, j = 0; i < tamanho_quadro/2; i++, j+=2 ) {
+    *tamanho = *tamanho*2;
+    int *quadro_manchester = new int[*tamanho];
+    for ( i = 0, j = 0; i < *tamanho/2; i++, j+=2 ) {
         if (quadro[i] == 0) {
             quadro_manchester[j] = 0;
             quadro_manchester[j+1] = 1;  // CLOCK 01
@@ -124,13 +88,13 @@ int* CamadaFisicaTransmissoraCodificacaoManchester(int* quadro) {
 * Assertiva de saída
 *   quadro_manchester_diferencial[] = {0,1,1,0,1,0,1,0,0,1,1,0,0,1,0,1};
 ****************************************************************************/
-int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro[]) {
-    tamanho_quadro = tamanho_quadro*2;
-
-    int *quadro_manchester_diferencial = new int[tamanho_quadro];
+int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial
+(int quadro[], int *tamanho) {
+    *tamanho = *tamanho*2;
+    int *quadro_manchester_diferencial = new int[*tamanho];
     int i, j;
 
-    for ( i = 1, j = 2; i < tamanho_quadro/2; i++, j+=2 ) {
+    for ( i = 1, j = 2; i < *tamanho/2; i++, j+=2 ) {
         if (quadro[0] == 0) {
             quadro_manchester_diferencial[0] = 0;
             quadro_manchester_diferencial[1] = 1;
@@ -159,40 +123,39 @@ int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro[]) {
 * comunicacao, passando de um pontoA (transmissor) para um
 * ponto B (receptor)
 */
-void MeioDeComunicacao(int fluxoBrutoDeBits[]) {
+void MeioDeComunicacao(int fluxoBrutoDeBits[], int *tamanho) {
     // OBS IMPORTANTE: trabalhar com BITS e nao com BYTES!!!
     int i;
     int *fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
-    int *fluxoBrutoDeBitsPontoB = new int[tamanho_quadro];
-    for (i = 0; i < tamanho_quadro; i++) {
+    int *fluxoBrutoDeBitsPontoB = new int[*tamanho];
+    for (i = 0; i < *tamanho; i++) {
         fluxoBrutoDeBitsPontoB[i] = fluxoBrutoDeBitsPontoA[i];
-        // BITS! Sendo transferidos
-    }   // fim do while
-    //  chama proxima camada
-    CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB);
-    delete(fluxoBrutoDeBitsPontoA);
-    delete fluxoBrutoDeBitsPontoB;
+    }
+    delete fluxoBrutoDeBitsPontoA;
+    // chama a proxima camada
+    CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB, tamanho);
 }   // fim do metodo MeioDeTransmissao
 
 
-void CamadaFisicaReceptora(int quadro[]) {
+void CamadaFisicaReceptora(int quadro[], int *tamanho) {
     int tipoDeDecodificacao = CODIFICACAO;    // alterar de acordo o teste
     int *fluxoBrutoDeBits;    // ATENÇÃO: trabalhar com BITS!!!
     switch (tipoDeDecodificacao) {
         case 0 :    // codificao binaria
             fluxoBrutoDeBits =
-            CamadaFisicaReceptoraDecodificacaoBinaria(quadro);
+            CamadaFisicaReceptoraDecodificacaoBinaria(quadro, tamanho);
             break;
         case 1 :    // codificacao manchester
             fluxoBrutoDeBits =
-            CamadaFisicaReceptoraDecodificacaoManchester(quadro);
+            CamadaFisicaReceptoraDecodificacaoManchester(quadro, tamanho);
             break;
         case 2 :    // codificacao manchester diferencial
             fluxoBrutoDeBits =
-            CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(quadro);
+            CamadaFisicaReceptoraDecodificacaoManchesterDiferencial
+            (quadro, tamanho);
             break;
     }   // fim do switch/case
-    CamadaDeAplicacaoReceptora(fluxoBrutoDeBits);   // chama proxima camada
+    CamadaEnlaceReceptora(fluxoBrutoDeBits, tamanho);
 }   // fim do metodo CamadaFisicaTransmissora
 
 
@@ -209,7 +172,7 @@ void CamadaFisicaReceptora(int quadro[]) {
 * Assertiva de saída
 *   quadro[] == {1,0,1,1,0,1,0,0}
 ****************************************************************************/ 
-int* CamadaFisicaReceptoraDecodificacaoBinaria(int quadro[]) {
+int* CamadaFisicaReceptoraDecodificacaoBinaria(int quadro[], int *tamanho) {
     return quadro;  // implementacao do algoritmo para DECODIFICAR
 }   // fim do metodo CamadaFisicaReceptoraDecodificacaoBinaria
 
@@ -227,11 +190,11 @@ int* CamadaFisicaReceptoraDecodificacaoBinaria(int quadro[]) {
 * Assertiva de saída
 *   quadro_manchester_decodificado[] == {1, 0, 1, 1, 0, 1, 0, 0}
 ****************************************************************************/
-int* CamadaFisicaReceptoraDecodificacaoManchester(int quadro[]) {
-    tamanho_quadro = tamanho_quadro/2;
-    int *quadro_manchester_decodificado = new int[tamanho_quadro];
+int* CamadaFisicaReceptoraDecodificacaoManchester(int quadro[], int *tamanho) {
+    *tamanho = *tamanho/2;
+    int *quadro_manchester_decodificado = new int[*tamanho];
     int i, j;
-    for ( i = 0, j = 0; i < tamanho_quadro; i++, j+=2 ) {
+    for ( i = 0, j = 0; i < *tamanho; i++, j+=2 ) {
         quadro_manchester_decodificado[i] = quadro[j];
     }
     return quadro_manchester_decodificado;
@@ -252,12 +215,13 @@ int* CamadaFisicaReceptoraDecodificacaoManchester(int quadro[]) {
 * Assertiva de saída
 *   quadro_manchester_diferencial_decodificado[]= {0,1,0,0,1,1,1,0};
 ****************************************************************************/
-int* CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(int quadro[]) {
-    tamanho_quadro = tamanho_quadro/2;
-    int *quadro_manchester_diferencial_decodificado = new int[tamanho_quadro];
+int* CamadaFisicaReceptoraDecodificacaoManchesterDiferencial
+(int quadro[], int *tamanho) {
+    *tamanho = *tamanho/2;
+    int *quadro_manchester_diferencial_decodificado = new int[*tamanho];
     int i, j;
 
-    for ( i = 1, j = 2; i < tamanho_quadro; i++, j+=2 ) {
+    for ( i = 1, j = 2; i < *tamanho; i++, j+=2 ) {
         if (quadro[0] == 0) {
             quadro_manchester_diferencial_decodificado[0] = 0;
         }
@@ -269,7 +233,6 @@ int* CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(int quadro[]) {
     }
     return quadro_manchester_diferencial_decodificado;
 }   // fim do CamadaFisicaReceptoraDecodificacaoManchesterDiferencial
-
 
 /***************************************************************************
 * Função: CamadaDeAplicacaoReceptora
@@ -285,12 +248,12 @@ int* CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(int quadro[]) {
 * Assertiva de saída
 *   mensagem == string mensagem
 ****************************************************************************/
-void CamadaDeAplicacaoReceptora(int quadro[]) {
+void CamadaDeAplicacaoReceptora(int quadro[], int *tamanho) {
     string mensagem = "";    // estava trabalhando com bits
     int i = 0, j = BITS-1;
     int auxiliar = 0;
 
-    for (; i < tamanho_quadro; i++, j--) {
+    for (; i < *tamanho; i++, j--) {
         auxiliar += pow(2, j)*quadro[i];
         if  (j == 0) {
             mensagem = mensagem + (static_cast<char>(auxiliar));

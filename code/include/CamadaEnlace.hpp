@@ -3,34 +3,33 @@
 #ifndef CAMADAENLACE_HPP_
 #define CAMADAENLACE_HPP_
 
+void CamadaEnlaceTransmissora(int quadro[], int *tamanho);
+void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho);
+int* CamadaEnlaceTransmissoraEnquadramentoContagemDeCaracteres(int quadro[], int *tamanho);
+int* CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBytes(int quadro[], int *tamanho);
+int* CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBits(int quadro[], int *tamanho);
+int* CamadaEnlaceTransmissoraEnquadramentoViolacaoDaCamadaFisica(int quadro[], int *tamanho);
 
-void CamadaEnlaceTransmissora(int quadro[]);
-void CamadaEnlaceTransmissoraEnquadramento(int quadro[]);
-int* CamadaEnlaceTransmissoraEnquadramentoContagemDeCaracteres(int quadro[]);
-int* CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBytes(int quadro[]);
-int* CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBits(int quadro[]);
-int* CamadaEnlaceTransmissoraEnquadramentoViolacaoDaCamadaFisica(int quadro[]);
+void CamadaEnlaceReceptora(int quadro[], int *tamanho);
+void CamadaEnlaceReceptoraEnquadramento(int quadro[], int *tamanho);
+int* CamadaEnlaceReceptoraEnquadramentoContagemDeCaracteres(int quadro[], int *tamanho);
+int* CamadaEnlaceReceptoraEnquadramentoInsercaoDeBytes(int quadro[], int *tamanho);
+int* CamadaEnlaceReceptoraEnquadramentoInsercaoDeBits(int quadro[], int *tamanho);
+int* CamadaEnlaceReceptoraEnquadramentoViolacaoDaCamadaFisica(int quadro[], int *tamanho);
 
-void CamadaEnlaceReceptora(int quadro[]);
-void CamadaEnlaceReceptoraEnquadramento(int quadro[]);
-int* CamadaEnlaceReceptoraEnquadramentoContagemDeCaracteres(int quadro[]);
-int* CamadaEnlaceReceptoraEnquadramentoInsercaoDeBytes(int quadro[]);
-int* CamadaEnlaceReceptoraEnquadramentoInsercaoDeBits(int quadro[]);
-int* CamadaEnlaceReceptoraEnquadramentoViolacaoDaCamadaFisica(int quadro[]);
+void CamadaEnlaceTransmissoraControleDeErro(int quadro[], int *tamanho);
+void CamadaEnlaceTransmissoraControleDeErroBitParidadePar(int quadro[], int *tamanho);
+void CamadaEnlaceTransmissoraControleDeErroBitParidadeImpar(int quadro[], int *tamanho);
+void CamadaEnlaceTransmissoraControleDeErroCRC(int quadro[], int *tamanho);
+void CamadaEnlaceTransmissoraControleDeErroCodigoDeHamming(int quadro[], int *tamanho);
 
-void CamadaEnlaceTransmissoraControleDeErro(int quadro[]);
-void CamadaEnlaceTransmissoraControleDeErroBitParidadePar(int quadro[]);
-void CamadaEnlaceTransmissoraControleDeErroBitParidadeImpar(int quadro[]);
-void CamadaEnlaceTransmissoraControleDeErroCRC(int quadro[]);
-void CamadaEnlaceTransmissoraControleDeErroCodigoDeHamming(int quadro[]);
+void CamadaEnlaceReceptoraControleDeErro(int quadro[], int *tamanho);
+void CamadaEnlaceReceptoraControleDeErroBitDeParidadePar(int quadro[], int *tamanho);
+void CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar(int quadro[], int *tamanho);
+void CamadaEnlaceReceptoraControleDeErroCRC(int quadro[], int *tamanho);
+void CamadaEnlaceReceptoraControleDeErroCodigoDeHamming(int quadro[], int *tamanho);
 
-void CamadaEnlaceReceptoraControleDeErro(int quadro[]);
-void CamadaEnlaceReceptoraControleDeErroBitDeParidadePar(int quadro[]);
-void CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar(int quadro[]);
-void CamadaEnlaceReceptoraControleDeErroCRC(int quadro[]);
-void CamadaEnlaceReceptoraControleDeErroCodigoDeHamming(int quadro[]);
-
-void CamadaEnlaceTransmissoraControleDeFluxo(int quadro[]);
-void CamadaEnlaceReceptoraControleDeFluxo(int quadro[]);
+void CamadaEnlaceTransmissoraControleDeFluxo(int quadro[], int *tamanho);
+void CamadaEnlaceReceptoraControleDeFluxo(int quadro[], int *tamanho);
 
 #endif  // CAMADAENLACE_HPP_
