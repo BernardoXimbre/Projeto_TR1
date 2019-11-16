@@ -5,6 +5,8 @@
 
 using namespace std;
 
+#define ENQUADRAMENTO 0
+
 void CamadaEnlaceTransmissora(int quadro[], int *tamanho);
 void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho);
 int* CamadaEnlaceTransmissoraEnquadramentoContagemDeCaracteres(int quadro[], int *tamanho);

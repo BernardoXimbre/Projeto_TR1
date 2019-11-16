@@ -9,7 +9,7 @@ void CamadaEnlaceTransmissora(int quadro[], int *tamanho) {
 }   // fim do metodo CamadaEnlaceTransmissora
 
 void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho) {
-    int tipoDeEnquadramento = 0;  // alterar de acordo com o teste
+    int tipoDeEnquadramento = ENQUADRAMENTO;  // alterar de acordo com o teste
     int *quadroEnquadrado;
     switch (tipoDeEnquadramento) {
         case 0 :    // contagem de caracteres
@@ -54,32 +54,29 @@ void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho) {
 *   tamanho = 8
 * Assertiva de saída
 *               |   cabecalho  |
-*   quadro[] = {0,0,0,0,1,0,0,0,1,0,1,1,0,1,0,0}
-*   tamanho = 8
+*   quadro[] = {0,0,0,0,1,0,0,1,1,0,1,1,0,1,0,0}
+*   tamanho = 16
 ****************************************************************************/ 
 int* CamadaEnlaceTransmissoraEnquadramentoContagemDeCaracteres
 (int quadro[], int *tamanho) {
-    *tamanho = *tamanho*2;
+    string contador = bitset<BITS>(*tamanho/BITS).to_string();
+    *tamanho = *tamanho+BITS;
     int i, j;
 
     int *quadro_enquadrado = new int[*tamanho];
-    string contador = bitset<BITS>(BITS).to_string();
-    for (i = 0, j = 0; i < *tamanho; i++, j--) {
-        if (j == 0) {
-            while (j < BITS) {
-                if (contador[j] == '1') {
-                    quadro_enquadrado[i+j] = 1;
-                } else {
-                    quadro_enquadrado[i+j] = 0;
-                }
-                j++;
-            }
-            i += j;
-        }
-        quadro_enquadrado[i] = quadro[i];
-    }
 
-    // implementacao do algoritmo
+    for (i = 0, j = 0; i < *tamanho; i++) {
+        if (i < BITS) {
+            if (contador[i] == '1') {
+                quadro_enquadrado[i] = 1;
+            } else {
+                quadro_enquadrado[i] = 0;
+            }
+        } else {
+            quadro_enquadrado[i] = quadro[j];
+            j++;
+        }
+    }
     return quadro_enquadrado;
 }   // fim do metodo CamadaEnlaceTransmissoraContagemDeCaracteres
 
@@ -99,14 +96,12 @@ int* CamadaEnlaceTransmissoraEnquadramentoViolacaoDaCamadaFisica
 }   // fim do metodo CamadaEnlaceTransmissoraViolacaoDaCamadaFisica
 
 void CamadaEnlaceReceptora(int quadro[], int *tamanho) {
-    // CamadaEnlaceReceptoraEnquadramento(quadro, tamanho);
-    // CamadaEnlaceReceptoraControleDeErro(quadro, tamanho);
-    // CamadaEnlaceReceptoraControleDeFluxo(quadro, tamanho);
-    CamadaDeAplicacaoReceptora(quadro, tamanho);   // chama proxima camada
+    // chama proxima camada
+    CamadaEnlaceReceptoraEnquadramento(quadro, tamanho);
 }   // fim do metodo CamadaEnlaceReceptora
 
 void CamadaEnlaceReceptoraEnquadramento(int quadro[], int *tamanho) {
-    int tipoDeEnquadramento = 0;    // alterar de acordo com o teste
+    int tipoDeEnquadramento = ENQUADRAMENTO;    // alterar de acordo com o teste
     int *quadroDesenquadrado;
     switch (tipoDeEnquadramento) {
         case 0 :    // contagem de caracteres
@@ -130,11 +125,41 @@ void CamadaEnlaceReceptoraEnquadramento(int quadro[], int *tamanho) {
             (quadro, tamanho);
             break;
     }   // fim do switch/case
+    // CamadaEnlaceReceptoraControleDeErro(quadro, tamanho);
+    // CamadaEnlaceReceptoraControleDeFluxo(quadro, tamanho);
+    CamadaDeAplicacaoReceptora(quadroDesenquadrado, tamanho);
 }   // fim do metodo CamadaEnlaceReceptoraEnquadramento
 
+
+/***************************************************************************
+* Função: CamadaEnlaceReceptoraEnquadramentoContagemDeCaracteres
+* Descrição
+*   retira em BITS no cabecalho o tamanho de cada quadro
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_denquadrado[] - array em bits
+* Assertiva de entrada
+*               |   cabecalho  |
+*   quadro[] = {0,0,0,0,0,0,0,1,1,0,1,1,0,1,0,0}
+*   tamanho = 16
+* Assertiva de saída
+*   quadro[] = {1,0,1,1,0,1,0,0}
+*   tamanho = 8
+****************************************************************************/ 
 int* CamadaEnlaceReceptoraEnquadramentoContagemDeCaracteres
 (int quadro[], int *tamanho) {
-    // implementacao do algoritmo para DESENQUADRAR
+    int i, j, auxiliar = 0;
+    for (i = 0, j = BITS - 1; i < BITS ; i++, j--) {
+        auxiliar += pow(2, j)*quadro[i];
+    }
+    *tamanho = auxiliar*BITS;
+    int *quadro_denquadrado = new int[*tamanho];
+    for (i = 0, j = BITS; i < *tamanho; i++, j++) {
+        quadro_denquadrado[i] = quadro[j];
+    }
+    return quadro_denquadrado;
 }   // fim do metodo CamadaEnlaceReceptoraContagemDeCaracteres
 
 int* CamadaEnlaceReceptoraEnquadramentoInsercaoDeBytes
