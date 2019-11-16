@@ -39,11 +39,11 @@ Abra o terminal e execute os seguintes comandos para executar
 
 ### SIMULAR
 
-	cd Projeto_TR1/code/source/make simulador
+	cd Projeto_TR1/code/source/make Simulador
 
 ### TESTE UNITARIO
 
-	cd Projeto_TR1/code/source/make teste
+	cd Projeto_TR1/code/source/make Teste
 ### APAGAR TODOS OS OBJETOS DE COMPILACAO
 
 	cd Projeto_TR1/code/source/make clean
