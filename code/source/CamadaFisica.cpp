@@ -31,13 +31,16 @@ void CamadaFisicaTransmissora(int quadro[], int *tamanho) {
 * Descrição
 *   Codifica o quadro de bits em binario
 * Parâmetros
-*   quadro - nome da variavel que armazena o conjunto de bits.
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
 * Valor retornado
 *   retorna quadro[] - array em bits da variavel quadro.
 * Assertiva de entrada
-*   quadro[] == {1,0,1,1,0,1,0,0}
+*   quadro[] = {1,0,1,1,0,1,0,0}
+*   tamanho = 8
 * Assertiva de saída
 *   quadro[] == {1,0,1,1,0,1,0,0}
+*   tamanho = 8
 ****************************************************************************/ 
 int* CamadaFisicaTransmissoraCodificacaoBinaria(int quadro[], int *tamanho) {
     return quadro;  // implementacao do algoritmo
@@ -49,13 +52,16 @@ int* CamadaFisicaTransmissoraCodificacaoBinaria(int quadro[], int *tamanho) {
 * Descrição
 *   Codifica o quadro de bits de acordo com a transicao do clock 01
 * Parâmetros
-*   quadro - nome da variavel que armazena o conjunto de bits.
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
 * Valor retornado
 *   retorna quadro_manchester[] - array em bits codificado.
 * Assertiva de entrada
 *   quadro[] = {1, 0, 1, 1, 0, 1, 0, 0}
+*   tamanho = 8
 * Assertiva de saída
 *   quadro_manchester[] = {1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1}
+*   tamanho = 16
 ****************************************************************************/
 int* CamadaFisicaTransmissoraCodificacaoManchester(int quadro[], int *tamanho) {
     int i, j;
@@ -80,13 +86,16 @@ int* CamadaFisicaTransmissoraCodificacaoManchester(int quadro[], int *tamanho) {
 * Descrição
 *   Codifica o quadro de bits de acordo com a transicao de 0 e 1 do quadro com CLOCK = 01
 * Parâmetros
-*   quadro - nome da variavel que armazena o conjunto de bits.
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
 * Valor retornado
 *   retorna quadro_manchester_diferenciavel[] - array em bits codificado.
 * Assertiva de entrada
-*   quadro[]= {0,1,0,0,1,1,1,0}
+*   quadro[] = {0,1,0,0,1,1,1,0}
+*   tamanho = 8
 * Assertiva de saída
 *   quadro_manchester_diferencial[] = {0,1,1,0,1,0,1,0,0,1,1,0,0,1,0,1};
+*   tamanho = 16
 ****************************************************************************/
 int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial
 (int quadro[], int *tamanho) {
@@ -164,13 +173,16 @@ void CamadaFisicaReceptora(int quadro[], int *tamanho) {
 * Descrição
 *   Decodifica o quadro de bits em binario
 * Parâmetros
-*   quadro - nome da variavel que armazena o conjunto de bits.
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
 * Valor retornado
 *   retorna quadro[] - array em bits da variavel quadro.
 * Assertiva de entrada
-*   quadro[] == {1,0,1,1,0,1,0,0}
+*   quadro[] = {1,0,1,1,0,1,0,0}
+*   tamanho = 8
 * Assertiva de saída
-*   quadro[] == {1,0,1,1,0,1,0,0}
+*   quadro[] = {1,0,1,1,0,1,0,0}
+*   tamanho = 8
 ****************************************************************************/ 
 int* CamadaFisicaReceptoraDecodificacaoBinaria(int quadro[], int *tamanho) {
     return quadro;  // implementacao do algoritmo para DECODIFICAR
@@ -182,13 +194,16 @@ int* CamadaFisicaReceptoraDecodificacaoBinaria(int quadro[], int *tamanho) {
 * Descrição
 *   Decodifica o quadro_manchester de bits de acordo com a transicao do clock 01
 * Parâmetros
-*   quadro - nome da variavel que armazena o conjunto de bits.
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
 * Valor retornado
 *   retorna quadro_manchester_decodigicado[] - array em bits decodificado.
 * Assertiva de entrada
 *   quadro[] = {1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1}
+*   tamanho = 16
 * Assertiva de saída
 *   quadro_manchester_decodificado[] == {1, 0, 1, 1, 0, 1, 0, 0}
+*   tamanho = 8
 ****************************************************************************/
 int* CamadaFisicaReceptoraDecodificacaoManchester(int quadro[], int *tamanho) {
     *tamanho = *tamanho/2;
@@ -206,14 +221,16 @@ int* CamadaFisicaReceptoraDecodificacaoManchester(int quadro[], int *tamanho) {
 * Descrição
 *   Decodifica o quadro_manchester_diferencial de bits de acordo com a o valor do quadro anterior
 * Parâmetros
-*   quadro - nome da variavel que armazena o conjunto de bits
-*   clock 01
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
 * Valor retornado
 *   retorna quadro_manchester_diferencial_decodificado[] - array em bits decodificado
 * Assertiva de entrada
 *   quadro_manchester_diferencial[] = {0,1,1,0,1,0,1,0,0,1,1,0,0,1,0,1};
+*   tamanho = 16
 * Assertiva de saída
 *   quadro_manchester_diferencial_decodificado[]= {0,1,0,0,1,1,1,0};
+*   tamanho = 8
 ****************************************************************************/
 int* CamadaFisicaReceptoraDecodificacaoManchesterDiferencial
 (int quadro[], int *tamanho) {
@@ -240,11 +257,13 @@ int* CamadaFisicaReceptoraDecodificacaoManchesterDiferencial
 *   converte cada quadro de BITS para um caractere e atribui a uma string mensagem
 *   chama uma funcao AplicacaoReceptora passando como parametro mensagem
 * Parâmetros
-*   quadro - variavel que armazena os dados em BITS
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
 * Valor retornado
 *   retorna void.
 * Assertiva de entrada
 *   quadro == int quadro[]
+*   tamanho = int
 * Assertiva de saída
 *   mensagem == string mensagem
 ****************************************************************************/

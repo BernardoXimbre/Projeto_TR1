@@ -2,17 +2,54 @@
 
 # include "gtest/gtest.h"
 # include "CamadaEnlace.hpp"
-/*
-TEST(CAMDAENLACE, Transmissora) {
-    int quadro[]= {1, 1, 0, 1, 1, 1, 1, 0}, i;
+
+
+/***************TESTE CAMADA ENLACE******************/
+
+TEST(CamadaEnlace, EnquadramentoContagemDeCaracteres) {
+    int quadro[]= {1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0}, i;
+    int quadro_cabecalho[] = {
+    0, 0, 0, 0, 1, 0, 0, 0,
+    1, 1, 0, 1, 1, 1, 1, 0,
+    0, 0, 0, 0, 1, 0, 0, 0,
+    1, 1, 0, 1, 1, 1, 1, 0
+    };
+    int tamanho = sizeof(quadro)/sizeof(int);
     int verificador = 0;
-    int *resultado = CamadaFisicaTransmissoraCodificacaoBinaria(quadro);
-    for (i = 0; i< sizeof(quadro)/sizeof(int); i++) {
-        if (quadro[i] != resultado[i]) {
+    int *resultado =
+    CamadaEnlaceTransmissoraEnquadramentoContagemDeCaracteres(quadro, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro_cabecalho[i] != resultado[i]) {
             verificador = 1;
             break;
         }
     }
     ASSERT_EQ(verificador, 0);
+    delete resultado;
 }
-*/
+
+TEST(CamadaEnlace, EnquadramentoContagemDeCaracteresErroQuadroCabecalho) {
+    int quadro[]= {
+    1, 1, 0, 1, 1, 1, 1, 0,
+    1, 1, 0, 1, 1, 1, 1, 0}, i;
+    int quadro_cabecalho[] = {
+    1, 0, 0, 0, 1, 0, 0, 0,
+    1, 1, 0, 1, 1, 1, 1, 0,
+    0, 0, 0, 0, 1, 0, 0, 0,
+    1, 1, 0, 1, 1, 1, 1, 0
+    };
+    int tamanho = sizeof(quadro)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceTransmissoraEnquadramentoContagemDeCaracteres(quadro, &tamanho);
+    cout << "\ntamanho " << tamanho;
+    for (i = 0; i< tamanho; i++) {
+        if (quadro_cabecalho[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_NE(verificador, 0);
+    delete resultado;
+}

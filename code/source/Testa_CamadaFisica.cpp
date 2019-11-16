@@ -8,10 +8,11 @@ int main(int argc, char **argv) {
     return RUN_ALL_TESTS();
 }
 
+
 /***************TESTE CAMADA FISICA******************/
 
 
-TEST(CodificacaoBinaria, Transmissora) {
+TEST(CamadaFisica, CodificacaoBinariaTransmissora) {
     int quadro[]= {1, 1, 0, 1, 1, 1, 1, 0}, i;
     int tamanho = sizeof(quadro)/sizeof(int);
     int verificador = 0;
@@ -26,7 +27,7 @@ TEST(CodificacaoBinaria, Transmissora) {
     ASSERT_EQ(verificador, 0);
 }
 
-TEST(CodificacaoBinaria, Transmissora_erro_quadro) {
+TEST(CamadaFisica, CodificacaoBinariaTransmissoraErroQuadro) {
     int quadro[]= {1, 1, 0, 1, 1, 1, 1, 0}, i;
     int tamanho = sizeof(quadro)/sizeof(int);
     int verificador = 0;
@@ -41,7 +42,7 @@ TEST(CodificacaoBinaria, Transmissora_erro_quadro) {
     ASSERT_NE(verificador, 1);
 }
 
-TEST(Receptora_Binaria, correto) {
+TEST(CamadaFisica, CodificacaoBinariaReceptora) {
     int quadro[]= {1, 1, 0, 1, 1, 1, 1, 0}, i;
     int tamanho = sizeof(quadro)/sizeof(int);
     int verificador = 0;
@@ -56,7 +57,7 @@ TEST(Receptora_Binaria, correto) {
     ASSERT_EQ(verificador, 0);
 }
 
-TEST(Receptora_Binaria, erro_quadro) {
+TEST(CamadaFisica, CodificacaoBinariaReceptoraErroQuadro) {
     int quadro[]= {1, 1, 0, 1, 1, 1, 1, 0}, i;
     int tamanho = sizeof(quadro)/sizeof(int);
     int verificador = 0;
@@ -70,9 +71,8 @@ TEST(Receptora_Binaria, erro_quadro) {
     }
     ASSERT_NE(verificador, 1);
 }
-/***************************************************/
 
-TEST(Transmissora_Manchester, correto) {
+TEST(CamadaFisica, CodificacaoManchesterTransmissora) {
     int quadro[]= {0, 1, 0, 1, 0, 0, 1, 1}, i;
     int tamanho = sizeof(quadro)/sizeof(int);
     int q_m[] = {0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0};
@@ -91,7 +91,7 @@ TEST(Transmissora_Manchester, correto) {
     delete resultado;
 }
 
-TEST(Transmissora_Manchester, erro_quadro) {
+TEST(CamadaFisica, CodificacaoManchesterTransmissoraErroQuadro) {
     int quadro[]= {1, 1, 0, 1, 0, 0, 1, 1}, i;
     int tamanho = sizeof(quadro)/sizeof(int);
     int q_m[] = {0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0};
@@ -109,7 +109,7 @@ TEST(Transmissora_Manchester, erro_quadro) {
     delete resultado;
 }
 
-TEST(Transmissora_Manchester, erro_quadro_manchester) {
+TEST(CamadaFisica, CodificacaoManchesterTransmissoraErroQuadroManchester) {
     int quadro[]= {0, 1, 0, 1, 0, 0, 1, 1}, i;
     int q_m[] = {1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0};
     int tamanho = sizeof(quadro)/sizeof(int);
@@ -126,7 +126,7 @@ TEST(Transmissora_Manchester, erro_quadro_manchester) {
     delete resultado;
 }
 
-TEST(Receptora_Manchester, correto) {
+TEST(CamadaFisica, CodificacaoManchesterReceptora) {
     int quadro[]= {0, 1, 0, 1, 0, 0, 1, 1}, i;
     int q_m[] = {0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0};
     int tamanho = sizeof(q_m)/sizeof(int);
@@ -142,7 +142,7 @@ TEST(Receptora_Manchester, correto) {
     delete resultado;
 }
 
-TEST(Receptora_Manchester, erro_quadro) {
+TEST(CamadaFisica, CodificacaoManchesterReceptoraErroQuadro) {
     int quadro[]= {1, 1, 0, 1, 0, 0, 1, 1}, i;
     int q_m[] = {0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0};
     int tamanho = sizeof(q_m)/sizeof(int);
@@ -158,7 +158,7 @@ TEST(Receptora_Manchester, erro_quadro) {
     delete resultado;
 }
 
-TEST(Receptora_Manchester, erro_quadro_manchester) {
+TEST(CamadaFisica, CodificacaoManchesterReceptoraErroQuadroManchester) {
     int quadro[]= {0, 1, 0, 1, 0, 0, 1, 1}, i;
     int q_m[] = {1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0};
     int tamanho = sizeof(q_m)/sizeof(int);
@@ -173,9 +173,8 @@ TEST(Receptora_Manchester, erro_quadro_manchester) {
     ASSERT_NE(verificador, 0);
     delete resultado;
 }
-/***************************************************/
 
-TEST(Transmissora_Manchester_Diferencial, correto) {
+TEST(CamadaFisica, CodificacaoManchesterDiferencialTransmissora) {
     int quadro[]= {0, 1, 0, 0, 1, 1, 1, 0}, i;
     int q_m_d[] = {0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
     int verificador = 0;
@@ -192,7 +191,7 @@ TEST(Transmissora_Manchester_Diferencial, correto) {
     delete resultado;
 }
 
-TEST(Transmissora_Manchester_Diferencial, errado_quadro) {
+TEST(CamadaFisica, CodificacaoManchesterDiferencialTransmissoraErroQuadro) {
     int quadro[]= {1, 1, 0, 0, 1, 1, 1, 0}, i;
     int q_m_d[] = {0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
     int verificador = 0;
@@ -209,7 +208,8 @@ TEST(Transmissora_Manchester_Diferencial, errado_quadro) {
     delete resultado;
 }
 
-TEST(Transmissora_Manchester_Diferencial, errado_quadro_manchester) {
+TEST(CamadaFisica,
+CodificacaoManchesterDiferencialTransmissoraErroQuadroManchester) {
     int quadro[]= {0, 1, 0, 0, 1, 1, 1, 0}, i;
     int q_m_d[] = {1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
     int verificador = 0;
@@ -226,7 +226,7 @@ TEST(Transmissora_Manchester_Diferencial, errado_quadro_manchester) {
     delete resultado;
 }
 
-TEST(Receptora_Manchester_Diferencial, correto) {
+TEST(CamadaFisica, CodificacaoManchesterDiferencialReceptora) {
     int quadro[]= {0, 1, 0, 0, 1, 1, 1, 0}, i;
     int q_m_d[] = {0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
     int verificador = 0;
@@ -243,7 +243,7 @@ TEST(Receptora_Manchester_Diferencial, correto) {
     delete resultado;
 }
 
-TEST(Receptora_Manchester_Diferencial, erro_quadro) {
+TEST(CamadaFisica, CodificacaoManchesterDiferencialReceptoraErroQuadro) {
     int quadro[]= {1, 1, 0, 0, 1, 1, 1, 0}, i;
     int q_m_d[] = {0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
     int verificador = 0;
@@ -260,7 +260,8 @@ TEST(Receptora_Manchester_Diferencial, erro_quadro) {
     delete resultado;
 }
 
-TEST(Receptora_Manchester_Diferencial, erro_quadro_manchester_diferencial) {
+TEST(CamadaFisica,
+CodificacaoManchesterDiferencialReceptoraErroQuadroManchesterDiferencial) {
     int quadro[]= {1, 1, 0, 0, 1, 1, 1, 0}, i;
     int q_m_d[] = {1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1};
     int verificador = 0;
@@ -276,4 +277,3 @@ TEST(Receptora_Manchester_Diferencial, erro_quadro_manchester_diferencial) {
     ASSERT_NE(verificador, 0);
     delete resultado;
 }
-/***************************************************/

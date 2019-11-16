@@ -4,10 +4,8 @@
 # include "CamadaFisica.hpp"
 
 void CamadaEnlaceTransmissora(int quadro[], int *tamanho) {
-    // CamadaEnlaceTransmissoraEnquadramento(quadro);
-    // CamadaEnlaceTransmissoraControleDeErro(quadro);
-    // CamadaEnlaceTransmissoraControleDeFluxo(quadro);
-    CamadaFisicaTransmissora(quadro, tamanho);   // chama a proxima camada
+    // chama a proxima camada
+    CamadaEnlaceTransmissoraEnquadramento(quadro, tamanho);
 }   // fim do metodo CamadaEnlaceTransmissora
 
 void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho) {
@@ -35,11 +33,54 @@ void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho) {
             (quadro, tamanho);
             break;
     }   // fim do switch/case
+    // CamadaEnlaceTransmissoraControleDeErro(quadro);
+    // CamadaEnlaceTransmissoraControleDeFluxo(quadro);
+    // chama a proxima camada
+    CamadaFisicaTransmissora(quadroEnquadrado, tamanho);
 }   // fim do metodo CamadaEnlaceTransmissoraEnquadramento
 
+
+/***************************************************************************
+* Função: CamadaEnlaceTransmissoraEnquadramentoContagemDeCaracteres
+* Descrição
+*   insere em BITS no cabecalho o tamanho de cada quadro
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_enquadrado[] - array em bits
+* Assertiva de entrada
+*   quadro[] = {1,0,1,1,0,1,0,0}
+*   tamanho = 8
+* Assertiva de saída
+*               |   cabecalho  |
+*   quadro[] = {0,0,0,0,1,0,0,0,1,0,1,1,0,1,0,0}
+*   tamanho = 8
+****************************************************************************/ 
 int* CamadaEnlaceTransmissoraEnquadramentoContagemDeCaracteres
 (int quadro[], int *tamanho) {
+    *tamanho = *tamanho*2;
+    int i, j;
+
+    int *quadro_enquadrado = new int[*tamanho];
+    string contador = bitset<BITS>(BITS).to_string();
+    for (i = 0, j = 0; i < *tamanho; i++, j--) {
+        if (j == 0) {
+            while (j < BITS) {
+                if (contador[j] == '1') {
+                    quadro_enquadrado[i+j] = 1;
+                } else {
+                    quadro_enquadrado[i+j] = 0;
+                }
+                j++;
+            }
+            i += j;
+        }
+        quadro_enquadrado[i] = quadro[i];
+    }
+
     // implementacao do algoritmo
+    return quadro_enquadrado;
 }   // fim do metodo CamadaEnlaceTransmissoraContagemDeCaracteres
 
 int* CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBytes

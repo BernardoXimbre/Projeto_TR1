@@ -43,6 +43,7 @@ $(TEST): $(OBJ)
 	$(CPPLINT) *.cpp
 	$(CPPCHECK) *.cpp
 	$(GCOV) -n $(ODIR)/*.gcda
+	./$(TEST)
 
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $(G++_FLAGS) $< $(CFLAGS)

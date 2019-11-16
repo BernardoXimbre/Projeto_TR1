@@ -10,7 +10,7 @@
 # include <cmath>
 
 
-#define CODIFICACAO 2
+#define CODIFICACAO 0
 #define BITS 8
 
 using namespace std;

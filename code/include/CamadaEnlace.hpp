@@ -3,6 +3,8 @@
 #ifndef CAMADAENLACE_HPP_
 #define CAMADAENLACE_HPP_
 
+using namespace std;
+
 void CamadaEnlaceTransmissora(int quadro[], int *tamanho);
 void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho);
 int* CamadaEnlaceTransmissoraEnquadramentoContagemDeCaracteres(int quadro[], int *tamanho);
