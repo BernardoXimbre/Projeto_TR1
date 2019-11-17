@@ -190,3 +190,150 @@ TEST(CamadaEnlace, DenquadramentoInsercaoDeBytesErroQuadro) {
     ASSERT_NE(verificador, 0);
     delete resultado;
 }
+
+TEST(CamadaEnlace, EnquadramentoInsercaoDeBits) {
+    int quadro[]= {0, 1, 1, 1, 1, 1, 1, 0}, i;
+    int quadro_inse_bits[] = {
+    0, 1, 1, 1, 1, 1, 1, 0,
+    0, 1, 1, 1, 1, 1, 0, 1, 0,
+    0, 1, 1, 1, 1, 1, 1, 0
+    };
+    int tamanho = sizeof(quadro)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro_inse_bits[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_EQ(verificador, 0);
+    delete resultado;
+}
+
+TEST(CamadaEnlace, EnquadramentoInsercaoDeBitsB) {
+    int quadro[]= {1, 1, 1, 1, 1, 1, 1, 0}, i;
+    int quadro_inse_bits[] = {
+    0, 1, 1, 1, 1, 1, 1, 0,
+    1, 1, 1, 1, 1, 0, 1, 1, 0,
+    0, 1, 1, 1, 1, 1, 1, 0
+    };
+    int tamanho = sizeof(quadro)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro_inse_bits[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_EQ(verificador, 0);
+    delete resultado;
+}
+
+TEST(CamadaEnlace, EnquadramentoInsercaoDeBitsErroQuadro) {
+    int quadro[]= {1, 1, 1, 1, 1, 1, 1, 0}, i;
+    int quadro_inse_bits[] = {
+    1, 1, 1, 1, 1, 1, 1, 0,
+    1, 1, 1, 1, 1, 0, 1, 1, 0,
+    0, 1, 1, 1, 1, 1, 1, 0
+    };
+    int tamanho = sizeof(quadro)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro_inse_bits[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_NE(verificador, 0);
+    delete resultado;
+}
+
+TEST(CamadaEnlace, DenquadramentoInsercaoDeBits) {
+    int quadro[]= {0, 1, 1, 1, 1, 1, 0, 0}, i;
+    int quadro_inse_bits[] = {
+    0, 1, 1, 1, 1, 1, 1, 0,
+    0, 1, 1, 1, 1, 1, 0, 0, 0,
+    0, 1, 1, 1, 1, 1, 1, 0
+    };
+    int tamanho = sizeof(quadro_inse_bits)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceReceptoraEnquadramentoInsercaoDeBits
+    (quadro_inse_bits, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_EQ(verificador, 0);
+    delete resultado;
+}
+
+TEST(CamadaEnlace, DenquadramentoInsercaoDeBitsB) {
+    int quadro[]= {1, 1, 1, 1, 1, 1, 1, 1}, i;
+    int quadro_inse_bits[] = {
+    0, 1, 1, 1, 1, 1, 1, 0,
+    1, 1, 1, 1, 1, 0, 1, 1, 1,
+    0, 1, 1, 1, 1, 1, 1, 0
+    };
+    int tamanho = sizeof(quadro_inse_bits)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceReceptoraEnquadramentoInsercaoDeBits
+    (quadro_inse_bits, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_EQ(verificador, 0);
+    delete resultado;
+}
+
+TEST(CamadaEnlace, DenquadramentoInsercaoDeBitsErroQuadro) {
+    int quadro[]= {1, 1, 1, 1, 1, 1, 1, 0}, i;
+    int quadro_inse_bits[] = {
+    0, 1, 1, 1, 1, 1, 1, 0,
+    1, 1, 1, 1, 1, 0, 1, 1, 1,
+    0, 1, 1, 1, 1, 1, 1, 0
+    };
+    int tamanho = sizeof(quadro_inse_bits)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceReceptoraEnquadramentoInsercaoDeBits
+    (quadro_inse_bits, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_NE(verificador, 0);
+    delete resultado;
+}
+
+
+/*
+for (i = 0; i< tamanho; i++) {
+        cout << quadro[i];
+    }
+    cout << "\n";
+    for (i = 0; i< tamanho; i++) {
+        cout << resultado[i];
+    }
+    cout << "\n";
+*/

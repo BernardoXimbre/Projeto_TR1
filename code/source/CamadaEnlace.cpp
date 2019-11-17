@@ -3,10 +3,12 @@
 # include "CamadaEnlace.hpp"
 # include "CamadaFisica.hpp"
 
+
 void CamadaEnlaceTransmissora(int quadro[], int *tamanho) {
     // chama a proxima camada
     CamadaEnlaceTransmissoraEnquadramento(quadro, tamanho);
 }   // fim do metodo CamadaEnlaceTransmissora
+
 
 void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho) {
     int tipoDeEnquadramento = ENQUADRAMENTO;  // alterar de acordo com o teste
@@ -119,20 +121,79 @@ int* CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBytes
     return quadro_enquadrado;
 }   // fim do metodo CamadaEnlaceTransmissoraInsercaoDeBytes
 
+
+/***************************************************************************
+* Função: CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBits
+* Descrição
+*   insere em bytes no comeco e no fim do quadro uma FLAG
+*   adiciona 0 quando se tem uma sequencia de 1
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_enquadrado[] - array em bits
+* Assertiva de entrada
+*   quadro[] = {0, 1, 1, 1, 1, 1, 1, 0}
+*   tamanho = 8
+* Assertiva de saída
+*               |     inicio   |     quadro      |    fim       |
+*   quadro[] = {0,1,1,1,1,1,1,0,0,1,1,1,1,1,0,1,0,0,1,1,1,1,1,1,0}
+*   tamanho = 25
+****************************************************************************/
 int* CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBits
 (int quadro[], int *tamanho) {
-    // implementacao do algoritmo
+    int i, j, k, contador_inser;
+    for (i = 0, j = 0, contador_inser = 0; i < *tamanho ; i++) {
+        if (quadro[i] == 1) {
+            if (j == 5) {
+                contador_inser++;
+            }
+            j++;
+        } else {
+            j = 0;
+        }
+    }
+    *tamanho = *tamanho+2*BITS+contador_inser;
+    int *quadro_enquadrado = new int[*tamanho];
+
+    for (i = 0, j = 0, contador_inser = 0; j < *tamanho; i++, j++) {
+        if (j < BITS || j >= *tamanho-BITS) {
+            for (k = 0; k < BITS; j++, k++) {
+                if (k == 0 || k == BITS-1) {
+                    quadro_enquadrado[j] = 0;
+                } else {
+                    quadro_enquadrado[j] = 1;
+                }
+            }
+        }
+        if (quadro[i] == 1) {
+            if (contador_inser == 5) {
+                quadro_enquadrado[j] = 0;
+                j++;
+                contador_inser = 0;
+            } else {
+                contador_inser++;
+            }
+        } else {
+            contador_inser = 0;
+        }
+        quadro_enquadrado[j] = quadro[i];
+    }
+    return quadro_enquadrado;
 }   // fim do metodo CamadaEnlaceTransmissoraInsercaoDeBits
+
 
 int* CamadaEnlaceTransmissoraEnquadramentoViolacaoDaCamadaFisica
 (int quadro[], int *tamanho) {
     // implementacao do algoritmo
 }   // fim do metodo CamadaEnlaceTransmissoraViolacaoDaCamadaFisica
 
+
 void CamadaEnlaceReceptora(int quadro[], int *tamanho) {
     // chama proxima camada
     CamadaEnlaceReceptoraEnquadramento(quadro, tamanho);
 }   // fim do metodo CamadaEnlaceReceptora
+
 
 void CamadaEnlaceReceptoraEnquadramento(int quadro[], int *tamanho) {
     int tipoDeEnquadramento = ENQUADRAMENTO;    // alterar de acordo com o teste
@@ -196,6 +257,24 @@ int* CamadaEnlaceReceptoraEnquadramentoContagemDeCaracteres
     return quadro_denquadrado;
 }   // fim do metodo CamadaEnlaceReceptoraContagemDeCaracteres
 
+
+/***************************************************************************
+* Função: CamadaEnlaceReceptoraEnquadramentoInsercaoDeBytes
+* Descrição
+*   retira os bytes de FLAG no comeco e no fim do quadro
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_desenquadrado[] - array em bits
+* Assertiva de entrada
+*               |     inicio   |     quadro    |    fim       |
+*   quadro[] = {0,0,0,0,1,1,1,1,1,1,0,1,1,1,1,0,0,0,0,0,1,1,1,1}
+*   tamanho = 24
+* Assertiva de saída
+*   quadro[] = {1, 1, 0, 1, 1, 1, 1, 0}
+*   tamanho = 8
+****************************************************************************/
 int* CamadaEnlaceReceptoraEnquadramentoInsercaoDeBytes
 (int quadro[], int *tamanho) {
     int i, j, k;
@@ -208,9 +287,55 @@ int* CamadaEnlaceReceptoraEnquadramentoInsercaoDeBytes
     return quadro_denquadrado;
 }   // fim do metodo CamadaEnlaceReceptoraInsercaoDeBytes
 
+
+/***************************************************************************
+* Função: CamadaEnlaceReceptoraEnquadramentoInsercaoDeBits
+* Descrição
+*   retira os bytes no comeco e no fim do quadro uma FLAG
+*   retira 0 quando se tem uma sequencia de 1
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_enquadrado[] - array em bits
+* Assertiva de entrada
+*               |     inicio   |     quadro      |    fim       |
+*   quadro[] = {0,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,0}
+*   tamanho = 25
+* Assertiva de saída
+*   quadro[] = {0, 1, 1, 1, 1, 1, 0, 0}
+*   tamanho = 8
+****************************************************************************/
 int* CamadaEnlaceReceptoraEnquadramentoInsercaoDeBits
 (int quadro[], int *tamanho) {
-    // implementacao do algoritmo para DESENQUADRAR
+    int i, j, k, contador_inser;
+    for (i = BITS, j = 0, contador_inser = 0; i < *tamanho-BITS ; i++) {
+        if (quadro[i] == 1) {
+            if (j == 4) {
+                contador_inser++;
+                j = 0;
+            }
+            j++;
+        } else {
+            j = 0;
+        }
+    }
+    *tamanho = *tamanho-2*BITS-contador_inser;
+    int *quadro_enquadrado = new int[*tamanho];
+
+    for (i = 0, j = BITS, contador_inser = 0; i < *tamanho; i++, j++) {
+        quadro_enquadrado[i] = quadro[j];
+        if (quadro[j] == 1) {
+            if (contador_inser == 4) {
+                j++;
+                contador_inser = 0;
+            }
+            contador_inser++;
+        } else {
+            contador_inser = 0;
+        }
+    }
+    return quadro_enquadrado;
 }   // fim do metodo CamadaEnlaceReceptoraInsercaoDeBits
 
 int* CamadaEnlaceReceptoraEnquadramentoViolacaoDaCamadaFisica
