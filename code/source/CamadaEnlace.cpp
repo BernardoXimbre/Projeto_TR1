@@ -80,9 +80,43 @@ int* CamadaEnlaceTransmissoraEnquadramentoContagemDeCaracteres
     return quadro_enquadrado;
 }   // fim do metodo CamadaEnlaceTransmissoraContagemDeCaracteres
 
+
+/***************************************************************************
+* Função: CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBytes
+* Descrição
+*   insere em bytes no comeco e no fim do quadro uma FLAG
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_enquadrado[] - array em bits
+* Assertiva de entrada
+*   quadro[] = {1, 1, 0, 1, 1, 1, 1, 0}
+*   tamanho = 8
+* Assertiva de saída
+*               |     inicio   |     quadro    |    fim       |
+*   quadro[] = {0,0,0,0,1,1,1,1,1,1,0,1,1,1,1,0,0,0,0,0,1,1,1,1}
+*   tamanho = 24
+****************************************************************************/
 int* CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBytes
 (int quadro[], int *tamanho) {
-    // implementacao do algoritmo
+    int i, j, k;
+    *tamanho = *tamanho+2*BITS;
+    int *quadro_enquadrado = new int[*tamanho];
+
+    for (i = 0, j = 0; j < *tamanho; i++, j++) {
+        if (j < BITS || j >= *tamanho-BITS) {
+            for (k = 0; k < BITS; j++, k++) {
+                if (k < BITS/2) {
+                    quadro_enquadrado[j] = 0;
+                } else {
+                    quadro_enquadrado[j] = 1;
+                }
+            }
+        }
+        quadro_enquadrado[j] = quadro[i];
+    }
+    return quadro_enquadrado;
 }   // fim do metodo CamadaEnlaceTransmissoraInsercaoDeBytes
 
 int* CamadaEnlaceTransmissoraEnquadramentoInsercaoDeBits
@@ -164,7 +198,14 @@ int* CamadaEnlaceReceptoraEnquadramentoContagemDeCaracteres
 
 int* CamadaEnlaceReceptoraEnquadramentoInsercaoDeBytes
 (int quadro[], int *tamanho) {
-    // implementacao do algoritmo para DESENQUADRAR
+    int i, j, k;
+    *tamanho = *tamanho-2*BITS;
+    int *quadro_denquadrado = new int[*tamanho];
+
+    for (i = 0, j = BITS; i < *tamanho; i++, j++) {
+        quadro_denquadrado[i] = quadro[j];
+    }
+    return quadro_denquadrado;
 }   // fim do metodo CamadaEnlaceReceptoraInsercaoDeBytes
 
 int* CamadaEnlaceReceptoraEnquadramentoInsercaoDeBits
