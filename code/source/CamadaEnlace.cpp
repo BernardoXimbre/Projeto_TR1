@@ -250,7 +250,11 @@ int* CamadaEnlaceTransmissoraControleDeErroBitParidadePar
         }
         quadro_controle_erro[i] = quadro[i];
     }
-    quadro_controle_erro[i] = !(contador % 2 == 0);
+    if (contador % 2 == 0) {
+        quadro_controle_erro[i] = 0;
+    } else {
+        quadro_controle_erro[i] = 1;
+    }
     return quadro_controle_erro;
 }   // fim do metodo CamadaEnlaceTransmissoraControledeErroBitParidadePar
 
@@ -284,7 +288,11 @@ int* CamadaEnlaceTransmissoraControleDeErroBitParidadeImpar
         }
         quadro_controle_erro[i] = quadro[i];
     }
-    quadro_controle_erro[i] = (contador % 2 == 0);
+    if (contador % 2 != 0) {
+        quadro_controle_erro[i] = 0;
+    } else {
+        quadro_controle_erro[i] = 1;
+    }
     return quadro_controle_erro;
 }   // fim do metodo CamadaEnlaceTransmissoraControledeErroBitParidadeImpar
 
@@ -404,13 +412,14 @@ int* CamadaEnlaceReceptoraControleDeErroBitDeParidadePar
     int i, contador;
     *tamanho = *tamanho-1;
     int *quadro_controle_erro = new int[*tamanho];
-    for (i = 0, contador = 0; i < *tamanho-1; i++) {
+    for (i = 0, contador = 0; i < *tamanho; i++) {
         if (quadro[i] == 1) {
             contador++;
         }
         quadro_controle_erro[i] = quadro[i];
     }
-    if ((contador % 2) == quadro[*tamanho+1]) {
+
+    if ((contador % 2) == quadro[i]) {
         *verificador = true;
     } else {
         *verificador = false;
@@ -443,13 +452,13 @@ int* CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar
     int i, contador;
     *tamanho = *tamanho-1;
     int *quadro_controle_erro = new int[*tamanho];
-    for (i = 0, contador = 0; i < *tamanho-1; i++) {
+    for (i = 0, contador = 0; i < *tamanho; i++) {
         if (quadro[i] == 1) {
             contador++;
         }
         quadro_controle_erro[i] = quadro[i];
     }
-    if ((contador % 2 != 0) == quadro_controle_erro[i]) {
+    if (!(contador % 2) == quadro[i]) {
         *verificador = true;
     } else {
         *verificador = false;

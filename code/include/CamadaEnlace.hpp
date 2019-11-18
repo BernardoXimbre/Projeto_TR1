@@ -6,7 +6,7 @@
 using namespace std;
 
 #define ENQUADRAMENTO 0
-#define CONTROLE_ERRO 0
+#define CONTROLE_ERRO 1
 
 void CamadaEnlaceTransmissora(int quadro[], int *tamanho);
 void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho);
