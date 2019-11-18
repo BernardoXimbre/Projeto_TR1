@@ -35,10 +35,7 @@ void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho) {
             (quadro, tamanho);
             break;
     }   // fim do switch/case
-    // CamadaEnlaceTransmissoraControleDeErro(quadro);
-    // CamadaEnlaceTransmissoraControleDeFluxo(quadro);
-    // chama a proxima camada
-    CamadaFisicaTransmissora(quadroEnquadrado, tamanho);
+    CamadaEnlaceTransmissoraControleDeErro(quadro, tamanho);
 }   // fim do metodo CamadaEnlaceTransmissoraEnquadramento
 
 
@@ -338,47 +335,125 @@ int* CamadaEnlaceReceptoraEnquadramentoInsercaoDeBits
     return quadro_enquadrado;
 }   // fim do metodo CamadaEnlaceReceptoraInsercaoDeBits
 
+
 int* CamadaEnlaceReceptoraEnquadramentoViolacaoDaCamadaFisica
 (int quadro[], int *tamanho) {
     // implementacao do algoritmo para DESENQUADRAR
 }   // fim do metodo CamadaEnlaceReceptoraViolacaoDaCamadaFisica
 
+
 void CamadaEnlaceTransmissoraControleDeErro(int quadro[], int *tamanho) {
-    int tipoDeControleDeErro = 0;   // alterar de acordo com o teste
+    int tipoDeControleDeErro = CONTROLE_ERRO;   // alterar de acordo com o teste
+    int *quadroEnquadrado;
     switch (tipoDeControleDeErro) {
         case 0 :    // bit de paridade par
-            // codigo
+            quadroEnquadrado =
+            CamadaEnlaceTransmissoraControleDeErroBitParidadePar
+            (quadro, tamanho);
             break;
         case 1 :    // bit de paridade impar
-            // codigo
+            quadroEnquadrado =
+            CamadaEnlaceTransmissoraControleDeErroBitParidadeImpar
+            (quadro, tamanho);
+            break;
         break;
         case 2 :    // CRC
-            // codigo
+            quadroEnquadrado =
+            CamadaEnlaceTransmissoraControleDeErroCRC
+            (quadro, tamanho);
+            break;
         case 3 :    // codigo de Hamming
-            // codigo
+            quadroEnquadrado =
+            CamadaEnlaceTransmissoraControleDeErroCodigoDeHamming
+            (quadro, tamanho);
+            break;
         break;
         }   // fim do switch/case
+    // CamadaEnlaceTransmissoraControleDeFluxo(quadro);
+    // chama a proxima camada
+    CamadaFisicaTransmissora(quadroEnquadrado, tamanho);
 }   // fim do metodo CamadaEnlaceTransmissoraControleDeErro
 
-void CamadaEnlaceTransmissoraControleDeErroBitParidadePar
+
+/***************************************************************************
+* Função: CamadaEnlaceTransmissoraControleDeErroBitParidadePar
+* Descrição
+*   insere 1 bit comeco do quadro indicando paridade
+*   0 - se Par
+*   1 - se Impar
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_controle_erro[] - array em bits
+* Assertiva de entrada
+*   quadro[] = {1, 1, 1, 1, 1, 1, 0, 0}
+*   tamanho = 8
+* Assertiva de saída
+*   quadro[] = {1, 1, 1, 1, 1, 1, 0, 0, 0}
+*   tamanho = 9
+****************************************************************************/
+int* CamadaEnlaceTransmissoraControleDeErroBitParidadePar
 (int quadro[], int *tamanho) {
-    // implementacao do algoritmo
+    int i, contador;
+    *tamanho = *tamanho+1;
+    int *quadro_controle_erro = new int[*tamanho];
+    for (i = 0, contador = 0; i < *tamanho-1; i++) {
+        if (quadro[i] == 1) {
+            contador++;
+        }
+        quadro_controle_erro[i] = quadro[i];
+    }
+    quadro_controle_erro[i] = !(contador % 2 == 0);
+    return quadro_controle_erro;
 }   // fim do metodo CamadaEnlaceTransmissoraControledeErroBitParidadePar
 
-void CamadaEnlaceTransmissoraControleDeErroBitParidadeImpar
+
+/***************************************************************************
+* Função: CamadaEnlaceTransmissoraControleDeErroBitParidadeImpar
+* Descrição
+*   insere 1 bit comeco do quadro indicando paridade
+*   1 - se Par
+*   0 - se Impar
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_controle_erro[] - array em bits
+* Assertiva de entrada
+*   quadro[] = {1, 1, 1, 1, 1, 1, 0, 0}
+*   tamanho = 8
+* Assertiva de saída
+*   quadro[] = {1, 1, 1, 1, 1, 1, 0, 0, 0}
+*   tamanho = 9
+****************************************************************************/
+int* CamadaEnlaceTransmissoraControleDeErroBitParidadeImpar
 (int quadro[], int *tamanho) {
-    // implementacao do algoritmo
+    int i, contador;
+    *tamanho = *tamanho+1;
+    int *quadro_controle_erro = new int[*tamanho];
+    for (i = 0, contador = 0; i < *tamanho-1; i++) {
+        if (quadro[i] == 1) {
+            contador++;
+        }
+        quadro_controle_erro[i] = quadro[i];
+    }
+    quadro_controle_erro[i] = (contador % 2 == 0);
+    return quadro_controle_erro;
 }   // fim do metodo CamadaEnlaceTransmissoraControledeErroBitParidadeImpar
 
-void CamadaEnlaceTransmissoraControleDeErroCRC(int quadro[], int *tamanho) {
+
+int* CamadaEnlaceTransmissoraControleDeErroCRC(int quadro[], int *tamanho) {
     // implementacao do algoritmo
     // usar polinomio CRC-32(IEEE 802)
 }   // fim do metodo CamadaEnlaceTransmissoraControledeErroCRC
 
-void CamadaEnlaceTransmissoraControleDeErroCodigoDeHamming
+
+int* CamadaEnlaceTransmissoraControleDeErroCodigoDeHamming
 (int quadro[], int *tamanho) {
     // implementacao do algoritmo
 }   // fim do metodo CamadaEnlaceTransmissoraControleDeErroCodigoDehamming
+
 
 /*
 void MeioDeComunicacao (int fluxoBrutoDeBits []) {
@@ -399,31 +474,121 @@ void MeioDeComunicacao (int fluxoBrutoDeBits []) {
 }//fim do metodo MeioDeTransmissao
 
 */
+
 void CamadaEnlaceReceptoraControleDeErro(int quadro[], int *tamanho) {
-    int tipoDeControleDeErro = 0;   // alterar de acordo com o teste
+    int tipoDeControleDeErro = CONTROLE_ERRO;   // alterar de acordo com o teste
+    int *quadroControleErro;
+    bool verificador;
     switch (tipoDeControleDeErro) {
         case 0 :    // bit de paridade par
-        // codigo
-        break;
+            quadroControleErro =
+            CamadaEnlaceReceptoraControleDeErroBitDeParidadePar
+            (quadro, tamanho, &verificador);
+            break;
         case 1 :    // bit de paridade impar
-        // codigo
+            // quadroControleErro =
+            // CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar
+            // (quadro, tamanho, &verificador);
+            break;
         break;
         case 2 :    // CRC
-        // codigo
-        case 3 :    // codigo de hamming
-        // codigo
+            // quadroControleErro =
+            // CamadaEnlaceReceptoraControleDeErroCRC
+            // (quadro, tamanho, &verificador);
+            break;
+        case 3 :    // codigo de Hamming
+            // quadroControleErro =
+            // CamadaEnlaceReceptoraControleDeErroCodigoDeHamming
+            // (quadro, tamanho, &verificador);
+            break;
         break;
-    }   // fim do switch/case
+        }   // fim do switch/case
+        if (verificador == true) {
+            // chama a proxima camada
+            CamadaFisicaTransmissora(quadroControleErro, tamanho);
+        } else {
+            cout << "\n\n QUADRO CORROMPIDO\n\n";
+            return;
+        }
+    // CamadaEnlaceTransmissoraControleDeFluxo(quadro);
 }   // fim do metodo CamadaEnlaceReceptoraControleDeErro
 
-void CamadaEnlaceReceptoraControleDeErroBitDeParidadePar
-(int quadro[], int *tamanho) {
-    // implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
+
+/***************************************************************************
+* Função: CamadaEnlaceReceptoraControleDeErroBitDeParidadePar
+* Descrição
+*   verifica se o bit de paridade é par
+*   retira 1 bit do comeco do quadro indicando que esta correto
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_controle_erro[] - array em bits
+*   verificador - true ou false
+* Assertiva de entrada
+*   quadro[] = {1, 1, 1, 1, 1, 1, 0, 0, 0}
+*   tamanho = 9
+* Assertiva de saída
+*   quadro[] = {1, 1, 1, 1, 1, 1, 0, 0}
+*   tamanho = 8
+*   verificador = true
+****************************************************************************/
+int* CamadaEnlaceReceptoraControleDeErroBitDeParidadePar
+(int quadro[], int *tamanho, bool *verificador) {
+    int i, contador;
+    *tamanho = *tamanho-1;
+    int *quadro_controle_erro = new int[*tamanho];
+    for (i = 0, contador = 0; i < *tamanho-1; i++) {
+        if (quadro[i] == 1) {
+            contador++;
+        }
+        quadro_controle_erro[i] = quadro[i];
+    }
+    if (!(contador % 2 == 0) == quadro_controle_erro[i]) {
+        *verificador = true;
+    } else {
+        *verificador = false;
+    }
+    return quadro_controle_erro;
 }   // fim do metodo CamadaEnlaceReceptoraControleDeErroBitDeParidadePar
 
-void CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar
-(int quadro[], int *tamanho) {
-    // implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
+
+/***************************************************************************
+* Função: CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar
+* Descrição
+*   verifica se o bit de paridade é par
+*   retira 1 bit do comeco do quadro indicando que esta correto
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_controle_erro[] - array em bits
+*   verificador - true ou false
+* Assertiva de entrada
+*   quadro[] = {1, 1, 1, 1, 1, 0, 0, 0, 0}
+*   tamanho = 9
+* Assertiva de saída
+*   quadro[] = {1, 1, 1, 1, 1, 1, 0, 0}
+*   tamanho = 8
+*   verificador = true
+****************************************************************************/
+int* CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar
+(int quadro[], int *tamanho, bool *verificador) {
+    int i, contador;
+    *tamanho = *tamanho-1;
+    int *quadro_controle_erro = new int[*tamanho];
+    for (i = 0, contador = 0; i < *tamanho-1; i++) {
+        if (quadro[i] == 1) {
+            contador++;
+        }
+        quadro_controle_erro[i] = quadro[i];
+    }
+    if ((contador % 2 != 0) == quadro_controle_erro[i]) {
+        *verificador = true;
+    } else {
+        *verificador = false;
+    }
+    return quadro_controle_erro;
 }   // fim do metodo CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar
 
 void CamadaEnlaceReceptoraControleDeErroCRC(int quadro[], int *tamanho) {
