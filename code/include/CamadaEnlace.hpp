@@ -6,7 +6,13 @@
 using namespace std;
 
 #define ENQUADRAMENTO 0
+// 0 - ContagemDeCaracteres
+// 1 - InsercaoDeBytes
+// 2 - InsercaoDeBits
+
 #define CONTROLE_ERRO 1
+// 0 - BitParidadePar
+// 1 - BitParidadeImpar
 
 void CamadaEnlaceTransmissora(int quadro[], int *tamanho);
 void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho);

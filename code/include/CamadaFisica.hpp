@@ -9,9 +9,13 @@
 # include <cstring>
 # include <cmath>
 
+#define BITS 8
 
 #define CODIFICACAO 0
-#define BITS 8
+//  0 - Binaria
+//  1 - Manchester
+//  2 - ManchesterDiferencial
+
 
 using namespace std;
 

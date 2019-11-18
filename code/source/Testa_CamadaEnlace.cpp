@@ -485,24 +485,30 @@ TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroBitDeParidadeImparErro) {
     ASSERT_EQ(validade, true);
     delete resultado;
 }
-
 /*
 TEST(CamadaEnlace, CamadaEnlaceTransmissoraControleDeErroCRC) {
-    int quadro[]= {1, 1, 1, 1, 1, 0, 0, 0}, i;
-    int quadro_ParidadeImpar[] = {1, 1, 1, 1, 1, 0, 0, 0, 0};
+    int quadro[]= {1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0}, i;
+    int quadro_CRC[] = {1, 1, 1, 1, 1, 0, 0, 0, 0};
     int tamanho = sizeof(quadro)/sizeof(int);
     int verificador = 0;
     int *resultado =
     CamadaEnlaceTransmissoraControleDeErroCRC
     (quadro, &tamanho);
 
+    cout << "\n";
+    for (i = 0; i< tamanho; i++) {
+        cout << resultado[i];
+    }
+    cout << "\n";
+    /*
     for (i = 0; i< tamanho; i++) {
         if (quadro_ParidadeImpar[i] != resultado[i]) {
             verificador = 1;
             break;
         }
     }
-    ASSERT_EQ(verificador, 0);
+    
+    // ASSERT_EQ(verificador, 0);
     delete resultado;
 }
 */
@@ -510,9 +516,9 @@ TEST(CamadaEnlace, CamadaEnlaceTransmissoraControleDeErroCRC) {
 for (i = 0; i< tamanho; i++) {
         cout << quadro[i];
 }
-    cout << "\n";
-    for (i = 0; i< tamanho; i++) {
-        cout << resultado[i];
-    }
-    cout << "\n";
+cout << "\n";
+for (i = 0; i< tamanho; i++) {
+    cout << resultado[i];
+}
+cout << "\n";
 */

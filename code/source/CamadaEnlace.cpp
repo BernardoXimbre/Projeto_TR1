@@ -298,13 +298,48 @@ int* CamadaEnlaceTransmissoraControleDeErroBitParidadeImpar
 
 
 int* CamadaEnlaceTransmissoraControleDeErroCRC(int quadro[], int *tamanho) {
-    // implementacao do algoritmo
+
+    int i, j, k, contador;
+    //  representacao polinomial - CRC-32: 0x04C11DB7
+    string auxiliar = bitset<27>(0x04C11DB7).to_string();
+    int tamanho_polinomio = auxiliar.length();
+    *tamanho = *tamanho+(tamanho_polinomio)-1;
+    int *polinomio = new int[tamanho_polinomio];
+    int *quadro_controle_erro = new int[*tamanho];
+    int *resto_divicao = new int[*tamanho];
+
+    for (i = 0; i < tamanho_polinomio; i++) {
+        if (auxiliar[i] == '1') {
+            polinomio[i] = 1;
+        } else if (auxiliar[i] == '0') {
+            polinomio[i] = 0;
+        }
+    }
+
+    for (i = 0; i < *tamanho; i++) {
+        if( i < *tamanho-tamanho_polinomio+1) {
+            resto_divicao[i] = quadro[i];    
+        } else {
+            resto_divicao[i] = 0;
+        }
+    }
+    cout << "\n\n";
+    for (i = 0; (i + tamanho_polinomio) < *tamanho ; i++) {
+        for (j = 0 ; j < tamanho_polinomio; j++) {
+            resto_divicao[j-i] = (resto_divicao[j-i] ^ polinomio[j]);
+        }
+        cout << "\n";
+        for (k = 0; k < *tamanho; k++) {
+            cout << resto_divicao[k];
+        }
+    }
+    cout << "\n\n";
     // bitset<BITS*sizeof(int)> teste = bitset<BITS*sizeof(int)>(10);
     // bitset<BITS*sizeof(int)> teste2 = bitset<BITS*sizeof(int)>(10);
     // cout << "\n\n" << auxiliar << "\n\n";
     // auxiliar = bitset<BITS>(static_cast<int>(mensagem[i])).to_string();
     // usar polinomio CRC-32(IEEE 802)
-    return quadro;
+    return resto_divicao;
 }   // fim do metodo CamadaEnlaceTransmissoraControledeErroCRC
 
 
