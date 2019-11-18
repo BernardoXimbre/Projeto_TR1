@@ -12,6 +12,7 @@ GNU Make 4.1
 
 Gtest version 1.8.1
 
+	sudo apt-get install libgtest-dev
 	sudo apt-get install cmake # install cmake
 	cd /usr/src/gtest
 	sudo cmake CMakeLists.txt
