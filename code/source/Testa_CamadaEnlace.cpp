@@ -372,7 +372,7 @@ TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroBitDeParidadePar) {
     int verificador = 0;
     int *resultado =
     CamadaEnlaceReceptoraControleDeErroBitDeParidadePar
-    (quadro, &tamanho, &validade);
+    (quadro_ParidadePar, &tamanho, &validade);
 
     for (i = 0; i< tamanho; i++) {
         if (quadro[i] != resultado[i]) {
@@ -393,7 +393,7 @@ TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroBitDeParidadeParErro) {
     int verificador = 0;
     int *resultado =
     CamadaEnlaceReceptoraControleDeErroBitDeParidadePar
-    (quadro, &tamanho, &validade);
+    (quadro_ParidadePar, &tamanho, &validade);
 
     for (i = 0; i< tamanho; i++) {
         if (quadro[i] != resultado[i]) {
@@ -445,14 +445,14 @@ TEST(CamadaEnlace, CamadaEnlaceTransmissoraControleDeErroBitParidadeImparErro) {
 }
 
 TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar) {
-    int quadro[]= {1, 1, 1, 1, 1, 1, 0, 0}, i;
+    int quadro[]= {1, 1, 1, 1, 1, 0, 0, 0}, i;
     int quadro_ParidadeImpar[] = {1, 1, 1, 1, 1, 0, 0, 0, 0};
     int tamanho = sizeof(quadro_ParidadeImpar)/sizeof(int);
     bool validade;
     int verificador = 0;
     int *resultado =
     CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar
-    (quadro, &tamanho, &validade);
+    (quadro_ParidadeImpar, &tamanho, &validade);
 
     for (i = 0; i< tamanho; i++) {
         if (quadro[i] != resultado[i]) {
@@ -466,14 +466,14 @@ TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar) {
 }
 
 TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroBitDeParidadeImparErro) {
-    int quadro[]= {1, 1, 1, 1, 1, 1, 0, 1}, i;
-    int quadro_ParidadeImpar[] = {1, 1, 1, 1, 1, 1, 0, 0, 0};
+    int quadro[]= {1, 1, 1, 1, 1, 0, 0, 1}, i;
+    int quadro_ParidadeImpar[] = {1, 1, 1, 1, 1, 0, 0, 0, 0};
     int tamanho = sizeof(quadro_ParidadeImpar)/sizeof(int);
     bool validade;
     int verificador = 0;
     int *resultado =
-    CamadaEnlaceReceptoraControleDeErroBitDeParidadePar
-    (quadro, &tamanho, &validade);
+    CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar
+    (quadro_ParidadeImpar, &tamanho, &validade);
 
     for (i = 0; i< tamanho; i++) {
         if (quadro[i] != resultado[i]) {
@@ -485,6 +485,7 @@ TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroBitDeParidadeImparErro) {
     ASSERT_EQ(validade, true);
     delete resultado;
 }
+
 /*
 TEST(CamadaEnlace, CamadaEnlaceTransmissoraControleDeErroCRC) {
     int quadro[]= {1, 1, 1, 1, 1, 0, 0, 0}, i;

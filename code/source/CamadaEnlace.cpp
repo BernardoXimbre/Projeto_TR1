@@ -345,10 +345,6 @@ void CamadaEnlaceReceptoraControleDeErro(int quadro[], int *tamanho) {
     int *quadroControleErro;
     bool verificador;
     int i;
-
-    for (i = 0; i < *tamanho; i++) {
-        cout << quadro[i];
-    }
     switch (tipoDeControleDeErro) {
         case 0 :    // bit de paridade par
             quadroControleErro =
@@ -373,10 +369,6 @@ void CamadaEnlaceReceptoraControleDeErro(int quadro[], int *tamanho) {
             break;
         break;
     }   // fim do switch/case
-    cout << "\n";
-    for (i = 0; i< *tamanho; i++) {
-        cout << quadro[i];
-    }
     if (verificador == true) {
         // chama a proxima camada
         CamadaEnlaceReceptoraEnquadramento(quadroControleErro, tamanho);
@@ -413,10 +405,10 @@ int* CamadaEnlaceReceptoraControleDeErroBitDeParidadePar
     *tamanho = *tamanho-1;
     int *quadro_controle_erro = new int[*tamanho];
     for (i = 0, contador = 0; i < *tamanho; i++) {
+        quadro_controle_erro[i] = quadro[i];
         if (quadro[i] == 1) {
             contador++;
         }
-        quadro_controle_erro[i] = quadro[i];
     }
 
     if ((contador % 2) == quadro[i]) {
@@ -450,6 +442,7 @@ int* CamadaEnlaceReceptoraControleDeErroBitDeParidadePar
 int* CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar
 (int quadro[], int *tamanho, bool *verificador) {
     int i, contador;
+
     *tamanho = *tamanho-1;
     int *quadro_controle_erro = new int[*tamanho];
     for (i = 0, contador = 0; i < *tamanho; i++) {
