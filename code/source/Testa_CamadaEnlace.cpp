@@ -486,6 +486,26 @@ TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroBitDeParidadeImparErro) {
     delete resultado;
 }
 /*
+TEST(CamadaEnlace, CamadaEnlaceTransmissoraControleDeErroCRC) {
+    int quadro[]= {1, 1, 1, 1, 1, 0, 0, 0}, i;
+    int quadro_ParidadeImpar[] = {1, 1, 1, 1, 1, 0, 0, 0, 0};
+    int tamanho = sizeof(quadro)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceTransmissoraControleDeErroCRC
+    (quadro, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro_ParidadeImpar[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_EQ(verificador, 0);
+    delete resultado;
+}
+*/
+/*
 for (i = 0; i< tamanho; i++) {
         cout << quadro[i];
 }
