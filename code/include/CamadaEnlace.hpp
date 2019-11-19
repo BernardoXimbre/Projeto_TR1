@@ -14,6 +14,10 @@ using namespace std;
 // 0 - BitParidadePar
 // 1 - BitParidadeImpar
 
+# define R_P 0x04C11DB7    // REPRESENTACAO_POLINOMIAL
+# define R_P_S 27   // REPRESENTACAO_POLINOMIAL
+//  CRC-32: 0x04C11DB7
+
 void CamadaEnlaceTransmissora(int quadro[], int *tamanho);
 void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho);
 int* CamadaEnlaceTransmissoraEnquadramentoContagemDeCaracteres(int quadro[], int *tamanho);

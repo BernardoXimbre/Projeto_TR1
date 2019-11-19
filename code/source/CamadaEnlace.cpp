@@ -297,49 +297,77 @@ int* CamadaEnlaceTransmissoraControleDeErroBitParidadeImpar
 }   // fim do metodo CamadaEnlaceTransmissoraControledeErroBitParidadeImpar
 
 
+/***************************************************************************
+* Função: CamadaEnlaceTransmissoraControleDeErroCRC
+* Descrição
+*   descobre o polinomio gerador
+*   atribui quadro a vetor de operacao
+*   realiza divisao binaria entre vetor de operacao e gerador
+*   atribui vetor operacao a vetor retorno
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_controle_erro[] - array em bits
+* Assertiva de entrada
+*   quadro[] = {1, 0, 0, 1, 0, 0}
+*   polinomio = 0x04C11DB7
+*   tamanho = 6
+* Assertiva de saída
+*   quadro[] = {1, 0, 0, 1, 0, 0, 0, 1,
+                1, 0, 1, 0, 0, 0, 0, 1,
+                1, 0, 0, 0, 1, 1, 0, 1,
+                1, 0, 0, 0, 1, 1, 1, 1}
+*   tamanho = 32
+****************************************************************************/
 int* CamadaEnlaceTransmissoraControleDeErroCRC(int quadro[], int *tamanho) {
+    //  Macro representacao polinomial R_P
+    //  Macro representacao polinomial size R_P_S
+    int i, j;
+    string auxiliar = bitset<R_P_S>(R_P).to_string();
 
-    int i, j, k, contador;
-    //  representacao polinomial - CRC-32: 0x04C11DB7
-    string auxiliar = bitset<27>(0x04C11DB7).to_string();
     int tamanho_polinomio = auxiliar.length();
-    *tamanho = *tamanho+(tamanho_polinomio)-1;
     int *polinomio = new int[tamanho_polinomio];
+
+    *tamanho = *tamanho + tamanho_polinomio - 1;
     int *quadro_controle_erro = new int[*tamanho];
     int *resto_divicao = new int[*tamanho];
 
+    // converte string em vetor de int binarios
     for (i = 0; i < tamanho_polinomio; i++) {
-        if (auxiliar[i] == '1') {
-            polinomio[i] = 1;
-        } else if (auxiliar[i] == '0') {
-            polinomio[i] = 0;
-        }
+        polinomio[i] = (auxiliar[i] == '1');
     }
 
+    // atribui os valores do quadro a variavel de operacao
     for (i = 0; i < *tamanho; i++) {
-        if( i < *tamanho-tamanho_polinomio+1) {
-            resto_divicao[i] = quadro[i];    
+        if (i < (*tamanho - tamanho_polinomio + 1)) {
+            resto_divicao[i] = quadro[i];
         } else {
             resto_divicao[i] = 0;
         }
     }
-    cout << "\n\n";
-    for (i = 0; (i + tamanho_polinomio) < *tamanho ; i++) {
-        for (j = 0 ; j < tamanho_polinomio; j++) {
-            resto_divicao[j-i] = (resto_divicao[j-i] ^ polinomio[j]);
-        }
-        cout << "\n";
-        for (k = 0; k < *tamanho; k++) {
-            cout << resto_divicao[k];
+
+    // operacao de divisao binaria com resto
+    for (i = 0; (i + tamanho_polinomio - 1) < *tamanho; i++) {
+        if (resto_divicao[i] != 0) {
+            for (j = 0; j < tamanho_polinomio; j++) {
+            resto_divicao[j+i] = resto_divicao[j+i] ^ polinomio[j];
+            }
         }
     }
-    cout << "\n\n";
-    // bitset<BITS*sizeof(int)> teste = bitset<BITS*sizeof(int)>(10);
-    // bitset<BITS*sizeof(int)> teste2 = bitset<BITS*sizeof(int)>(10);
-    // cout << "\n\n" << auxiliar << "\n\n";
-    // auxiliar = bitset<BITS>(static_cast<int>(mensagem[i])).to_string();
-    // usar polinomio CRC-32(IEEE 802)
-    return resto_divicao;
+
+    // coloca valores de quadro no inicio de resto
+    for (i = 0; i < (*tamanho - tamanho_polinomio + 1); i++) {
+        resto_divicao[i] = quadro[i];
+    }
+
+    // transfere resto = quadro + CRC para variavel de retorno
+    for (i = 0; i < *tamanho; i++) {
+        quadro_controle_erro[i] = resto_divicao[i];
+    }
+    delete polinomio;
+    delete resto_divicao;
+    return quadro_controle_erro;
 }   // fim do metodo CamadaEnlaceTransmissoraControledeErroCRC
 
 
@@ -393,9 +421,9 @@ void CamadaEnlaceReceptoraControleDeErro(int quadro[], int *tamanho) {
             break;
         break;
         case 2 :    // CRC
-            // quadroControleErro =
-            // CamadaEnlaceReceptoraControleDeErroCRC
-            // (quadro, tamanho, &verificador);
+            quadroControleErro =
+            CamadaEnlaceReceptoraControleDeErroCRC
+            (quadro, tamanho, &verificador);
             break;
         case 3 :    // codigo de Hamming
             // quadroControleErro =
@@ -494,9 +522,81 @@ int* CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar
     return quadro_controle_erro;
 }   // fim do metodo CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar
 
-void CamadaEnlaceReceptoraControleDeErroCRC(int quadro[], int *tamanho) {
+
+/***************************************************************************
+* Função: CamadaEnlaceReceptoraControleDeErroCRC
+* Descrição
+*   descobre o polinomio gerador
+*   atribui quadro a vetor de operacao
+*   realiza divisao binaria entre vetor de operacao e gerador
+*   verifica se resto divisao e 0
+*   atribui vetor operacao a vetor retorno
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_controle_erro[] - array em bits
+* Assertiva de entrada
+*   quadro[] = {1, 0, 0, 1, 0, 0, 0, 1,
+                1, 0, 1, 0, 0, 0, 0, 1,
+                1, 0, 0, 0, 1, 1, 0, 1,
+                1, 0, 0, 0, 1, 1, 1, 1}
+*   polinomio = 0x04C11DB7
+*   tamanho = 32
+* Assertiva de saída
+*   quadro[] = {1, 0, 0, 1, 0, 0}
+*   tamanho = 6
+****************************************************************************/
+int* CamadaEnlaceReceptoraControleDeErroCRC
+(int quadro[], int *tamanho, bool *verificador) {
     // implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
     // usar polinomio CRC-32(IEEE 802)
+
+    //  Macro representacao polinomial R_P
+    //  Macro representacao polinomial size R_P_S
+    int i, j;
+    string auxiliar = bitset<R_P_S>(R_P).to_string();
+
+    int tamanho_polinomio = auxiliar.length();
+    int *polinomio = new int[tamanho_polinomio];
+
+    int *quadro_controle_erro = new int[*tamanho - tamanho_polinomio + 1];
+    int *resto_divicao = new int[*tamanho];
+
+    // converte string em vetor de int binarios
+    for (i = 0; i < tamanho_polinomio; i++) {
+        polinomio[i] = (auxiliar[i] == '1');
+    }
+
+    // atribui os valores do quadro a variavel de operacao
+    for (i = 0; i < *tamanho; i++) {
+        resto_divicao[i] = quadro[i];
+    }
+
+    // operacao de divisao binaria com resto
+    for (i = 0; (i + tamanho_polinomio - 1) < *tamanho; i++) {
+        if (resto_divicao[i] != 0) {
+            for (j = 0; j < tamanho_polinomio; j++) {
+            resto_divicao[j+i] = resto_divicao[j+i] ^ polinomio[j];
+            }
+        }
+    }
+
+    for (i = 0; i < *tamanho; i++) {
+        if (resto_divicao[i] != 0) {
+            *verificador = false;
+            delete polinomio;
+            delete resto_divicao;
+            return NULL;
+        }
+    }
+    *tamanho = *tamanho - tamanho_polinomio + 1;
+    *verificador = true;
+    for (i = 0; i < *tamanho; i++)
+        quadro_controle_erro[i] = quadro[i];
+    delete polinomio;
+    delete resto_divicao;
+    return quadro_controle_erro;
 }   // fim do metodo CamadaEnlaceReceptoraControleDeErroCRC
 
 void CamadaEnlaceReceptoraControleDeErroCodigoDeHamming

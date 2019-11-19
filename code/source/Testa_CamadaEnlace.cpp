@@ -485,33 +485,75 @@ TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroBitDeParidadeImparErro) {
     ASSERT_EQ(validade, true);
     delete resultado;
 }
-/*
+
 TEST(CamadaEnlace, CamadaEnlaceTransmissoraControleDeErroCRC) {
-    int quadro[]= {1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0}, i;
-    int quadro_CRC[] = {1, 1, 1, 1, 1, 0, 0, 0, 0};
+    int quadro[]= {1, 0, 0, 1, 0, 0}, i;
+    int quadro_CRC[] = {1, 0, 0, 1, 0, 0, 0, 1,
+                        1, 0, 1, 0, 0, 0, 0, 1,
+                        1, 0, 0, 0, 1, 1, 0, 1,
+                        1, 0, 0, 0, 1, 1, 1, 0};
     int tamanho = sizeof(quadro)/sizeof(int);
     int verificador = 0;
     int *resultado =
     CamadaEnlaceTransmissoraControleDeErroCRC
     (quadro, &tamanho);
 
-    cout << "\n";
     for (i = 0; i< tamanho; i++) {
-        cout << resultado[i];
-    }
-    cout << "\n";
-    /*
-    for (i = 0; i< tamanho; i++) {
-        if (quadro_ParidadeImpar[i] != resultado[i]) {
+        if (quadro_CRC[i] != resultado[i]) {
             verificador = 1;
             break;
         }
     }
-    
-    // ASSERT_EQ(verificador, 0);
+    ASSERT_EQ(verificador, 0);
     delete resultado;
 }
-*/
+
+TEST(CamadaEnlace, CamadaEnlaceTransmissoraControleDeErroCRCErro) {
+    int quadro[]= {1, 0, 0, 1, 0, 0}, i;
+    int quadro_CRC[] = {1, 0, 0, 1, 0, 0, 0, 1,
+                        1, 0, 1, 0, 0, 0, 0, 1,
+                        1, 0, 0, 0, 1, 1, 0, 1,
+                        1, 0, 0, 0, 1, 1, 1, 1};
+    int tamanho = sizeof(quadro)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceTransmissoraControleDeErroCRC
+    (quadro, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro_CRC[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_NE(verificador, 0);
+    delete resultado;
+}
+
+TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroCRC) {
+    int quadro[]= {1, 0, 0, 1, 0, 0}, i;
+    int quadro_CRC[] = {1, 0, 0, 1, 0, 0, 0, 1,
+                        1, 0, 1, 0, 0, 0, 0, 1,
+                        1, 0, 0, 0, 1, 1, 0, 1,
+                        1, 0, 0, 0, 1, 1, 1, 0};
+    int tamanho = sizeof(quadro_CRC)/sizeof(int);
+    bool validade;
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceReceptoraControleDeErroCRC
+    (quadro_CRC, &tamanho, &validade);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_EQ(verificador, 0);
+    ASSERT_EQ(validade, true);
+    delete resultado;
+}
+
 /*
 for (i = 0; i< tamanho; i++) {
         cout << quadro[i];
