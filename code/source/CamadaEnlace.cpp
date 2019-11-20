@@ -371,9 +371,76 @@ int* CamadaEnlaceTransmissoraControleDeErroCRC(int quadro[], int *tamanho) {
 }   // fim do metodo CamadaEnlaceTransmissoraControledeErroCRC
 
 
+/***************************************************************************
+* Função: CamadaEnlaceTransmissoraControleDeErroCodigoDeHamming
+* Descrição
+*   descobre o tamanho do novo quadro com os controladores
+*   insere os bits M nas respectivas posicoes
+*   calcula os Ps de acordo com os respectivos algarismos significativos
+*   atribui vetor operacao a vetor retorno
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_controle_erro[] - array em bits
+* Assertiva de entrada
+*   quadro[] = {0, 1, 0, 1}
+*   tamanho = 4
+* Assertiva de saída
+*   quadro[] = {0, 1, 0, 0, 1, 0, 1}
+*   tamanho = P + M = 7
+****************************************************************************/
 int* CamadaEnlaceTransmissoraControleDeErroCodigoDeHamming
 (int quadro[], int *tamanho) {
-    // implementacao do algoritmo
+    int i, j, k, v, w, contador;
+    string auxiliar;
+    // descobre o numero de P necessario para controle
+    for (i = 0, j = 0, contador = 0; i < *tamanho; i = pow(2, j), j++) {
+        contador++;
+    }
+    *tamanho += contador;
+    int *quadro_controle_erro = new int[*tamanho];
+
+    // insere os bits M em suas determinadas posicoes
+    for (i = 0, j = 0, w = 0; i < *tamanho; i++) {
+        if (i+1 == pow(2, j)) {
+            quadro_controle_erro[i] = 0;
+            j++;
+        } else {
+            quadro_controle_erro[i] = quadro[w];
+            w++;
+        }
+    }
+
+    // calcula cada P de acordo com o algarismo menos significativo
+    for (i = 0, j = 0, w = 1; i < *tamanho; i++) {
+        if (i+1 == pow(2, j)) {
+            j++;
+            for (k = 1,  contador = 0, v = 0; k <= *tamanho; k++) {
+                // verifica se a posicao atual e um P ou um M
+                if (k == pow(2, v)) {
+                    v++;
+                } else {
+                // quebra o M respectivo e verifica o algarismo significativo
+                    auxiliar = bitset<32>(k).to_string();
+                    if (auxiliar[auxiliar.length()-w] == '1') {
+                        // verifica paridade se elemento e 1
+                        if (quadro_controle_erro[k-1] == 1) {
+                            contador++;
+                        }
+                    }
+                }
+            }
+            w++;
+            // verifica contador se contador for par entao 0
+            if (contador % 2 == 0) {
+                quadro_controle_erro[i] = 0;
+            } else {
+                quadro_controle_erro[i] = 1;
+            }
+        }
+    }
+    return quadro_controle_erro;
 }   // fim do metodo CamadaEnlaceTransmissoraControleDeErroCodigoDehamming
 
 
@@ -426,9 +493,9 @@ void CamadaEnlaceReceptoraControleDeErro(int quadro[], int *tamanho) {
             (quadro, tamanho, &verificador);
             break;
         case 3 :    // codigo de Hamming
-            // quadroControleErro =
-            // CamadaEnlaceReceptoraControleDeErroCodigoDeHamming
-            // (quadro, tamanho, &verificador);
+            quadroControleErro =
+            CamadaEnlaceReceptoraControleDeErroCodigoDeHamming
+            (quadro, tamanho);
             break;
         break;
     }   // fim do switch/case
@@ -585,13 +652,12 @@ int* CamadaEnlaceReceptoraControleDeErroCRC
     for (i = 0; i < *tamanho; i++) {
         if (resto_divicao[i] != 0) {
             *verificador = false;
-            delete polinomio;
-            delete resto_divicao;
-            return NULL;
+            break;
+        } else {
+            *verificador = true;
         }
     }
     *tamanho = *tamanho - tamanho_polinomio + 1;
-    *verificador = true;
     for (i = 0; i < *tamanho; i++)
         quadro_controle_erro[i] = quadro[i];
     delete polinomio;
@@ -599,11 +665,97 @@ int* CamadaEnlaceReceptoraControleDeErroCRC
     return quadro_controle_erro;
 }   // fim do metodo CamadaEnlaceReceptoraControleDeErroCRC
 
-void CamadaEnlaceReceptoraControleDeErroCodigoDeHamming
-(int quadro[], int *tamanho) {
-    // implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
-}   // fim do metodo CamadaEnlaceReceptoraControleDeErroCodigoDeHamming
 
+/***************************************************************************
+* Função: CamadaEnlaceReceptoraControleDeErroCodigoDeHamming
+* Descrição
+*   descobre o numero de P
+*   recalcula os P 
+*   compara os novos P com os antigos
+*   se der um valor maior que 0 substitui o bit na posicao indicada
+*   retorna quadro limpo sem os verificadores
+* Parâmetros
+*   quadro - armazena o conjunto de bits
+*   tamanho - armazena o tamanho do quadro
+* Valor retornado
+*   retorna quadro_controle_erro[] - array em bits
+* Assertiva de entrada
+*   quadro[] = {0, 1, 0, 0, 1, 0, 1}
+*   tamanho = P + M = 7
+* Assertiva de saída
+*   quadro[] = {0, 1, 0, 1}
+*   tamanho = 4
+****************************************************************************/
+int* CamadaEnlaceReceptoraControleDeErroCodigoDeHamming
+(int quadro[], int *tamanho) {
+    int i, j, k, v, w, z, contador, numero_P;
+    string auxiliar;
+    // descobre o numero de P necessario para controle
+    for (i = 0, j = 0, numero_P = -1; i < *tamanho; i = pow(2, j), j++) {
+        numero_P++;
+    }
+
+    int *erro = new int[numero_P];
+    int *quadro_controle_erro = new int[*tamanho-numero_P];
+
+    // calcula cada P de acordo com o algarismo menos significativo
+    for (i = 0, j = 0, w = 1, z = 0; i < *tamanho; i++) {
+        if (i+1 == pow(2, j)) {
+            j++;
+            for (k = 1,  contador = 0, v = 0; k <= *tamanho; k++) {
+                // verifica se a posicao atual e um P ou um M
+                if (k == pow(2, v)) {
+                    v++;
+                } else {
+                // quebra o M respectivo e verifica o algarismo significativo
+                    auxiliar = bitset<32>(k).to_string();
+                    if (auxiliar[auxiliar.length()-w] == '1') {
+                        // verifica paridade se elemento e 1
+                        if (quadro[k-1] == 1) {
+                            contador++;
+                        }
+                    }
+                }
+            }
+            w++;
+            // verifica contador se contador for par entao 0
+            if (contador % 2 == 0) {
+                erro[z] = 0;
+            } else {
+                erro[z] = 1;
+            }
+            z++;
+        }
+    }
+    // verifica valor erro com o P respectivo
+    for (i = 0, j=0 , z= 0 , contador = 0; i < *tamanho; i++) {
+        if (i+1 == pow(2, j)) {
+            erro[z] = erro[z] ^ quadro[i];
+            z++;
+            j++;
+        }
+    }
+    // conta a posicao em que se encontra o erro
+    for (i = 0, contador = 0; i < numero_P; i++)
+        contador+= erro[i]*pow(2, i);
+
+    // retira os P e atribui os M com a correcao do erro
+    for (i = 0, j=0 , z= 0 , contador = 0; i < *tamanho; i++) {
+        if (i+1 == pow(2, j)) {
+            j++;
+        } else {
+            if (contador != 0 && i == contador-1) {
+                quadro_controle_erro[z] = !(quadro[i]);
+            } else {
+                quadro_controle_erro[z] = quadro[i];
+            }
+            z++;
+        }
+    }
+    *tamanho = *tamanho - numero_P;
+    delete erro;
+    return quadro_controle_erro;
+}   // fim do metodo CamadaEnlaceReceptoraControleDeErroCodigoDeHamming
 
 
 void CamadaEnlaceReceptoraEnquadramento(int quadro[], int *tamanho) {

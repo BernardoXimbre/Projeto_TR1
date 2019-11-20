@@ -10,9 +10,10 @@ using namespace std;
 // 1 - InsercaoDeBytes
 // 2 - InsercaoDeBits
 
-#define CONTROLE_ERRO 1
+#define CONTROLE_ERRO 2
 // 0 - BitParidadePar
 // 1 - BitParidadeImpar
+// 2 - CRC
 
 # define R_P 0x04C11DB7    // REPRESENTACAO_POLINOMIAL
 # define R_P_S 27   // REPRESENTACAO_POLINOMIAL
@@ -43,7 +44,7 @@ void CamadaEnlaceReceptoraControleDeErro(int quadro[], int *tamanho);
 int* CamadaEnlaceReceptoraControleDeErroBitDeParidadePar(int quadro[], int *tamanho, bool *verificador);
 int* CamadaEnlaceReceptoraControleDeErroBitDeParidadeImpar(int quadro[], int *tamanho, bool *verificador);
 int* CamadaEnlaceReceptoraControleDeErroCRC(int quadro[], int *tamanho, bool *verificador);
-int* CamadaEnlaceReceptoraControleDeErroCodigoDeHamming(int quadro[], int *tamanho, bool *verificador);
+int* CamadaEnlaceReceptoraControleDeErroCodigoDeHamming(int quadro[], int *tamanho);
 
 void CamadaEnlaceTransmissoraControleDeFluxo(int quadro[], int *tamanho);
 void CamadaEnlaceReceptoraControleDeFluxo(int quadro[], int *tamanho);

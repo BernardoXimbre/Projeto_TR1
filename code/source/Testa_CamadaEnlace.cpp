@@ -554,6 +554,106 @@ TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroCRC) {
     delete resultado;
 }
 
+TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroCRCErro) {
+    int quadro[]= {1, 0, 0, 1, 0, 0}, i;
+    int quadro_CRC[] = {1, 0, 0, 1, 0, 0, 0, 1,
+                        1, 0, 1, 0, 0, 0, 0, 1,
+                        1, 0, 0, 0, 1, 1, 0, 1,
+                        1, 0, 0, 0, 1, 1, 1, 1};
+    int tamanho = sizeof(quadro_CRC)/sizeof(int);
+    bool validade;
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceReceptoraControleDeErroCRC
+    (quadro_CRC, &tamanho, &validade);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_EQ(verificador, 0);
+    ASSERT_NE(validade, true);
+    delete resultado;
+}
+
+TEST(CamadaEnlace, CamadaEnlaceTransmissoraControleDeErroCodigoDeHamming) {
+    int quadro[]= {0, 1, 0, 1}, i;
+    int quadro_HAMMING[] = {0, 1, 0, 0, 1, 0, 1};
+    int tamanho = sizeof(quadro)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceTransmissoraControleDeErroCodigoDeHamming
+    (quadro, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro_HAMMING[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_EQ(verificador, 0);
+    delete resultado;
+}
+
+TEST(CamadaEnlace, CamadaEnlaceTransmissoraControleDeErroCodigoDeHammingErro) {
+    int quadro[]= {0, 1, 0, 1}, i;
+    int quadro_HAMMING[] = {0, 1, 0, 0, 1, 0, 0};
+    int tamanho = sizeof(quadro)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceTransmissoraControleDeErroCodigoDeHamming
+    (quadro, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro_HAMMING[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_NE(verificador, 0);
+    delete resultado;
+}
+
+TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroCodigoDeHamming) {
+    int quadro[]= {1, 1, 0, 1, 0, 0, 1}, i;
+    int quadro_HAMMING[] = {0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1};
+    int tamanho = sizeof(quadro_HAMMING)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceReceptoraControleDeErroCodigoDeHamming
+    (quadro_HAMMING, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_EQ(verificador, 0);
+    delete resultado;
+}
+
+TEST(CamadaEnlace, CamadaEnlaceReceptoraControleDeErroCodigoDeHammingErro) {
+    int quadro[]= {1, 1, 0, 1, 0, 0, 0}, i;
+    int quadro_HAMMING[] = {0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1};
+    int tamanho = sizeof(quadro_HAMMING)/sizeof(int);
+    int verificador = 0;
+    int *resultado =
+    CamadaEnlaceReceptoraControleDeErroCodigoDeHamming
+    (quadro_HAMMING, &tamanho);
+
+    for (i = 0; i< tamanho; i++) {
+        if (quadro[i] != resultado[i]) {
+            verificador = 1;
+            break;
+        }
+    }
+    ASSERT_NE(verificador, 0);
+    delete resultado;
+}
+
 /*
 for (i = 0; i< tamanho; i++) {
         cout << quadro[i];
