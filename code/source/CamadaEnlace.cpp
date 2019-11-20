@@ -60,14 +60,15 @@ void CamadaEnlaceTransmissoraEnquadramento(int quadro[], int *tamanho) {
 ****************************************************************************/ 
 int* CamadaEnlaceTransmissoraEnquadramentoContagemDeCaracteres
 (int quadro[], int *tamanho) {
-    string contador = bitset<BITS>(*tamanho/BITS).to_string();
-    *tamanho = *tamanho+BITS;
-    int i, j;
 
+    string contador = bitset<BITS*4>(*tamanho/BITS).to_string();
+    int cabecalho = BITS*4;
+    *tamanho = *tamanho + cabecalho;
+    int i, j;
     int *quadro_enquadrado = new int[*tamanho];
 
     for (i = 0, j = 0; i < *tamanho; i++) {
-        if (i < BITS) {
+        if (i < cabecalho) {
             if (contador[i] == '1') {
                 quadro_enquadrado[i] = 1;
             } else {
@@ -787,12 +788,13 @@ void CamadaEnlaceReceptoraEnquadramento(int quadro[], int *tamanho) {
 int* CamadaEnlaceReceptoraEnquadramentoContagemDeCaracteres
 (int quadro[], int *tamanho) {
     int i, j, auxiliar = 0;
-    for (i = 0, j = BITS - 1; i < BITS ; i++, j--) {
+    for (i = 0, j = BITS*4 - 1; i < BITS*4 ; i++, j--) {
         auxiliar += pow(2, j)*quadro[i];
     }
+
     *tamanho = auxiliar*BITS;
     int *quadro_denquadrado = new int[*tamanho];
-    for (i = 0, j = BITS; i < *tamanho; i++, j++) {
+    for (i = 0, j = BITS*4; i < *tamanho; i++, j++) {
         quadro_denquadrado[i] = quadro[j];
     }
     return quadro_denquadrado;

@@ -10,7 +10,7 @@ using namespace std;
 // 1 - InsercaoDeBytes
 // 2 - InsercaoDeBits
 
-#define CONTROLE_ERRO 2
+#define CONTROLE_ERRO 3
 // 0 - BitParidadePar
 // 1 - BitParidadeImpar
 // 2 - CRC

@@ -39,8 +39,8 @@ $(SIMULADOR): $(OBJ2)
 
 $(TEST): $(OBJ)
 	$(CC) -o $@ $^ $(LD_FLAGS) $(CFLAGS)
-	$(GTEST_VALGRIND) ./$(TEST)
-	$(CPPLINT) *.cpp
+	#$(GTEST_VALGRIND) ./$(TEST)
+	#$(CPPLINT) *.cpp
 	$(CPPCHECK) *.cpp
 	$(GCOV) -n $(ODIR)/*.gcda
 	./$(TEST)
