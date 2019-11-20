@@ -8,9 +8,10 @@
 # include <bitset>
 # include <cstring>
 # include <cmath>
+# include <ctime>
 
 #define BITS 8
-
+#define PORCENTAGEM_ERRO 100
 #define CODIFICACAO 0
 //  0 - Binaria
 //  1 - Manchester

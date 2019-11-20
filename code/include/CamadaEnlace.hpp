@@ -10,10 +10,11 @@ using namespace std;
 // 1 - InsercaoDeBytes
 // 2 - InsercaoDeBits
 
-#define CONTROLE_ERRO 2
+#define CONTROLE_ERRO 3
 // 0 - BitParidadePar
 // 1 - BitParidadeImpar
 // 2 - CRC
+// 3 - HAMMING
 
 # define R_P 0x04C11DB7    // REPRESENTACAO_POLINOMIAL
 # define R_P_S 27   // REPRESENTACAO_POLINOMIAL

@@ -43,7 +43,7 @@ void CamadaFisicaTransmissora(int quadro[], int *tamanho) {
 *   tamanho = 8
 ****************************************************************************/ 
 int* CamadaFisicaTransmissoraCodificacaoBinaria(int quadro[], int *tamanho) {
-    return quadro;  // implementacao do algoritmo
+    return quadro;
 }   // fim do metodo CamadaFisicaTransmissoraCodificacaoBinaria
 
 
@@ -132,13 +132,19 @@ int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial
 * comunicacao, passando de um pontoA (transmissor) para um
 * ponto B (receptor)
 */
+
 void MeioDeComunicacao(int fluxoBrutoDeBits[], int *tamanho) {
     // OBS IMPORTANTE: trabalhar com BITS e nao com BYTES!!!
     int i;
     int *fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
     int *fluxoBrutoDeBitsPontoB = new int[*tamanho];
     for (i = 0; i < *tamanho; i++) {
-        fluxoBrutoDeBitsPontoB[i] = fluxoBrutoDeBitsPontoA[i];
+        if (PORCENTAGEM_ERRO == (rand() % 100 + 1)) {
+            cout << "BIT ERRO - CONTROLE_ERRO: " << CONTROLE_ERRO;
+            fluxoBrutoDeBitsPontoB[i] = !fluxoBrutoDeBitsPontoA[i];
+        } else {
+            fluxoBrutoDeBitsPontoB[i] = fluxoBrutoDeBitsPontoA[i];
+        }
     }
     delete fluxoBrutoDeBitsPontoA;
     // chama a proxima camada

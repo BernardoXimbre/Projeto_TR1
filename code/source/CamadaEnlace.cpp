@@ -446,34 +446,14 @@ int* CamadaEnlaceTransmissoraControleDeErroCodigoDeHamming
 
 void CamadaEnlaceReceptora(int quadro[], int *tamanho) {
     // chama proxima camada
-    // CamadaEnlaceReceptoraEnquadramento(quadro, tamanho);
     CamadaEnlaceReceptoraControleDeErro(quadro, tamanho);
 }   // fim do metodo CamadaEnlaceReceptora
 
-/*
-void MeioDeComunicacao (int fluxoBrutoDeBits []) {
- //OBS: trabalhar com BITS e nao com BYTES!!!
- int erro, porcentagemDeErros;
- int fluxoBrutoDeBitsPontoA [], fluxoBrutoDeBitsPontoB [];
- porcentagemDeErros = 0; //10%, 20%, 30%, 40%, ..., 100%
- fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
- while (fluxoBrutoDeBitsPontoB.lenght!=
- fluxoBrutoDeBitsPontoA) {
- if ((rand()%100)== ... ) //fazer a probabilidade do erro
- fluxoBrutoBitsPontoB += fluxoBrutoBitsPontoA; //BITS!!!
- else //ERRO! INVERTER (usa condicao ternaria)
- fluxoBrutoBitsPontoB==0) ?
- fluxoBrutoBitsPontoA=fluxoBrutoBitsPontoB++ :
- fluxoBrutoBitsPontoA=fluxoBrutoBitsPontoB--;
- }//fim do while
-}//fim do metodo MeioDeTransmissao
-
-*/
 
 void CamadaEnlaceReceptoraControleDeErro(int quadro[], int *tamanho) {
     int tipoDeControleDeErro = CONTROLE_ERRO;   // alterar de acordo com o teste
     int *quadroControleErro;
-    bool verificador;
+    bool verificador = true;
     int i;
     switch (tipoDeControleDeErro) {
         case 0 :    // bit de paridade par
