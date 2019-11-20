@@ -763,9 +763,6 @@ void CamadaEnlaceReceptoraEnquadramento(int quadro[], int *tamanho) {
             (quadro, tamanho);
             break;
     }   // fim do switch/case
-    // CamadaDeAplicacaoReceptora(quadroDesenquadrado, tamanho);
-    // CamadaEnlaceReceptoraControleDeErro(quadro, tamanho);
-    // CamadaEnlaceReceptoraControleDeFluxo(quadro, tamanho);
     CamadaDeAplicacaoReceptora(quadroDesenquadrado, tamanho);
 }   // fim do metodo CamadaEnlaceReceptoraEnquadramento
 

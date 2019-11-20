@@ -135,12 +135,14 @@ int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial
 
 void MeioDeComunicacao(int fluxoBrutoDeBits[], int *tamanho) {
     // OBS IMPORTANTE: trabalhar com BITS e nao com BYTES!!!
-    int i;
+    int i, erro;
     int *fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
     int *fluxoBrutoDeBitsPontoB = new int[*tamanho];
-    for (i = 0; i < *tamanho; i++) {
-        if (PORCENTAGEM_ERRO == (rand() % 100 + 1)) {
-            cout << "BIT ERRO - CONTROLE_ERRO: " << CONTROLE_ERRO;
+
+    for (i = 0, erro = 0; i < *tamanho; i++) {
+        if (erro == 0 && PORCENTAGEM_ERRO == (rand() % 100 + 1)) {
+            erro = 1;   // insere apenas 1 bit de erro internet humilde
+            cout << "BIT ERRO - CONTROLE_ERRO: " << CONTROLE_ERRO << "\n";
             fluxoBrutoDeBitsPontoB[i] = !fluxoBrutoDeBitsPontoA[i];
         } else {
             fluxoBrutoDeBitsPontoB[i] = fluxoBrutoDeBitsPontoA[i];

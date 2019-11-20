@@ -12,7 +12,7 @@
 
 #define BITS 8
 #define PORCENTAGEM_ERRO 100
-#define CODIFICACAO 0
+#define CODIFICACAO 1
 //  0 - Binaria
 //  1 - Manchester
 //  2 - ManchesterDiferencial
